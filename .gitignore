@@ -66,6 +66,10 @@ cover/
 local_settings.py
 db.sqlite3
 
+
+# Ignore collected static files
+staticfiles
+
 # Flask stuff:
 instance/
 .webassets-cache
