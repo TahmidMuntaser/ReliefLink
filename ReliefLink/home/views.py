@@ -21,27 +21,27 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('dashboard')  # Redirect to the dashboard after login
+            return redirect('dashboard')  
         else:
             return render(request, 'home/login.html', {'error': 'Invalid credentials'})
     return render(request, 'home/login.html')
 
 def logout_view(request):
     logout(request)
-    return redirect('home')  # Redirect to the home page after logout
+    return redirect('home')  
 
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = False  # Deactivate account until admin approves
+            user.is_active = False  
             user.set_password(form.cleaned_data['password'])
             user.save()
             role = form.cleaned_data['role']
             group = Group.objects.get(name=role)
             user.groups.add(group)
-            # Notify admin for approval (you can implement email notification here)
+    
             return redirect('signup_success')
     else:
         form = SignUpForm()
