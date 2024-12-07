@@ -33,6 +33,7 @@
                     </div>
                 {% else %}
                     <a href="{% url 'login' %}" class="login-button">Login</a>
+                    <a href="{% url 'signup' %}" class="join-button">Join Us</a>
                 {% endif %}
             </div>
         </nav>
@@ -40,9 +41,9 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-    <footer>
+    {% comment %} <footer>
         <p>&copy; 2023 ReliefLink</p>
-    </footer>
+    </footer> {% endcomment %}
     <script src="{% static 'home/script.js' %}"></script>
 </body>
 </html>
