@@ -1,9 +1,15 @@
 <!-- home/templates/home/index.html -->
 {% extends 'global/base.html' %}
+{% load static %}
 
 {% block title %}Home - ReliefLink{% endblock %}
 
 {% block content %}
-<h2>Welcome to ReliefLink</h2>
-<p>This is the home page.</p>
+<link rel="stylesheet" href="{% static 'home/index.css' %}">
+
+<div class="hero-section">
+    <h1>Welcome to ReliefLink</h1>
+    <p>Your trusted partner in disaster relief and resource management.</p>
+    <a href="{% url 'signup' %}" class="cta-button">Join Us</a>
+</div>
 {% endblock %}
