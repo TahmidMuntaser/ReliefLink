@@ -5,9 +5,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}ReliefLink{% endblock %}</title>
-    <link rel="stylesheet" href="{% static 'home/style.css' %}">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lobster&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Montserrat:wght@700&display=swap">
+    <link rel="stylesheet" href="{% static 'global/style.css' %}">
+    <link rel="stylesheet" href="{% static 'home/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -42,9 +44,42 @@
     <main>
         {% block content %}{% endblock %}
     </main>
-    {% comment %} <footer>
-        <p>&copy; 2023 ReliefLink</p>
-    </footer> {% endcomment %}
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-section">
+                <h3>Relief Tech</h3>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Service</a></li>
+                    <li><a href="#">Testimonial</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Reach us</h4>
+                <p>Phone: 1234567890</p>
+                <p>Email: info@relieflink.com</p>
+            </div>
+            <div class="footer-section">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <hr>
+            <p>&copy; 2024 Relief Tech. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="{% static 'home/script.js' %}"></script>
 </body>
 </html>
