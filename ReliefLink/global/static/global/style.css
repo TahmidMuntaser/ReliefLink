@@ -8,7 +8,7 @@ body {
 
 .footer {
     background-color: #f8f8f8;
-    padding: 20px 0;
+    padding: 20px 0 0 0 ;
     color: #333;
 }
 
@@ -83,12 +83,16 @@ body {
 
 .footer-bottom {
     text-align: center;
-    padding: 10px 0;
+    height: 60px;
     background-color: #e9e9e9;
+    
 }
 
 .footer-bottom hr {
-    margin: 20px 0;
+    margin: 20px 0;  
+    border: none; 
+    border-top: 1px solid #ccc; 
+   
 }
 
 .footer-bottom p {
