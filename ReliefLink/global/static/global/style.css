@@ -14,7 +14,7 @@ body {
 
 .container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between; 
     flex-wrap: wrap;
     max-width: 1200px;
     margin: 0 auto;
@@ -24,6 +24,14 @@ body {
     flex: 1;
     min-width: 200px;
     padding: 10px;
+}
+
+.company-section, .reach-us-section {
+    margin-left: 150px; 
+}
+
+.footer-section h3{
+  font-size: 35px;  
 }
 
 .footer-section h3, .footer-section h4 {
@@ -46,18 +54,31 @@ body {
 }
 
 .footer-section ul li a:hover {
-    color: #007BFF;
+    color: #ff9800;
 }
 
 .social-icons a {
     margin-right: 10px;
-    font-size: 1.5em; /* Adjust the size of the icons */
+    font-size: 1.5em; 
     color: #333;
     transition: color 0.3s;
 }
 
-.social-icons a:hover {
-    color: #007BFF;
+
+.social-icons a:nth-child(1):hover {
+    color: #5a5252; 
+}
+
+.social-icons a:nth-child(2):hover {
+    color: #3b5998; 
+}
+
+.social-icons a:nth-child(3):hover {
+    color: #E1306C; 
+}
+
+.social-icons a:nth-child(4):hover {
+    color: #FF0000; 
 }
 
 .footer-bottom {
