@@ -1,0 +1,20 @@
+<!-- home/templates/home/contact.html -->
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Contact Us - ReliefLink{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'home/contact.css' %}">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lobster&display=swap">
+
+<div class="contact-section">
+    <h2>Contact Us</h2>
+    <form action="#" method="post">
+        <input type="text" name="name" placeholder="Your Name" required>
+        <input type="email" name="email" placeholder="Your Email" required>
+        <textarea name="message" placeholder="Your Message" required></textarea>
+        <button type="submit" class="cta-button">Send Message</button>
+    </form>
+</div>
+{% endblock %}

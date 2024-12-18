@@ -1,3 +1,4 @@
+<!-- global/templates/global/base.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +56,7 @@
                     <li><a href="{% url 'home' %}">Home</a></li>
                     <li><a href="#">Service</a></li>
                     <li><a href="#">Testimonial</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-section reach-us-section">
@@ -64,7 +65,7 @@
                 <p>Email: info@relieflink.com</p>
                 <br>
                 <div class="social-icons">
-                    <a href="#"><i class="fab fa-x"></i></a> 
+                    <a href="#"><i class="fab fa-twitter"></i></a> 
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-youtube"></i></a>
