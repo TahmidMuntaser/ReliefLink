@@ -21,18 +21,27 @@ def contact(request):
         name = request.POST['name']
         email = request.POST['email']
         message = request.POST['message']
-        
 
-        subject = f"Contact Form Submission from {name}"
-        message_body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        subject = f"New Contact Form Submission from {name}"
+        message_body = (
+            f"Dear Admin,\n\n"
+            f"You have received a new message from the contact form on your website.\n\n"
+            f"Details:\n"
+            f"Name: {name}\n"
+            f"Email: {email}\n"
+            f"Message:\n{message}\n\n"
+            f"Best regards,\n"
+            f"ReliefLink Team"
+        )
         from_email = settings.EMAIL_HOST_USER
-        recipient_list = ['labr1t18203@gmail.com']  # Replace with your email address
-        
-    
-        send_mail(subject, message_body, from_email, recipient_list)
-    
-        return render(request, 'home/contact_success.html')
-    
+        recipient_list = ['labr1t18203@gmail.com']
+
+        try:
+            send_mail(subject, message_body, from_email, recipient_list)
+            return render(request, 'home/contact_success.html')
+        except Exception as e:
+            return render(request, 'home/contact.html', {'error': 'Error sending email. Please try again later.'})
+
     return render(request, 'home/contact.html')
 
 def login_view(request):
