@@ -8,7 +8,6 @@
 <link rel="stylesheet" href="{% static 'home/index.css' %}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lobster&display=swap">
 
-
 <div class="hero-section">
     <div class="hero-images">
         <div class="hero-image" style="background-image: url('{% static 'home/images/Relief.jpg' %}');"></div>
@@ -19,9 +18,35 @@
         <div class="hero-image" style="background-image: url('{% static 'home/images/Relief6.jpeg' %}');"></div>
     </div>
     <div class="hero-content">
-        <h1>Relief<span class= 'highlight'>Link</span></h1>
+        <h1>Relief<span class='highlight'>Link</span></h1>
         <p>Your trusted partner in disaster relief and resource management.</p>
         <a href="{% url 'signup' %}" class="cta-button">Join Us</a>
     </div>
 </div>
+
+<div class="services-section">
+    <h2>Our Services</h2>
+    <div class="services-container">
+
+        <div class="service">
+            <i class="fas fa-hands-helping"></i>
+            <h3>Disaster Relief</h3>
+            <p>Providing immediate assistance to those affected by natural disasters.</p>
+        </div>
+
+        <div class="service">
+            <i class="fas fa-warehouse"></i>
+            <h3>Resource Management</h3>
+            <p>Efficiently managing and distributing resources to those in need.</p>
+        </div>
+
+        <div class="service">
+            <i class="fas fa-users"></i>
+            <h3>Community Support</h3>
+            <p>Building strong communities through support and engagement.</p>
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}
