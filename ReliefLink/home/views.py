@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib.auth.models import User, Group
 from .forms import SignUpForm
 
@@ -11,6 +13,26 @@ def service(request):
     return render(request, 'home/service.html')
 
 def contact(request):
+    return render(request, 'home/contact.html')
+
+
+def contact(request):
+    if request.method == 'POST':
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        
+
+        subject = f"Contact Form Submission from {name}"
+        message_body = f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}"
+        from_email = settings.EMAIL_HOST_USER
+        recipient_list = ['labr1t18203@gmail.com']  # Replace with your email address
+        
+    
+        send_mail(subject, message_body, from_email, recipient_list)
+    
+        return render(request, 'home/contact_success.html')
+    
     return render(request, 'home/contact.html')
 
 def login_view(request):
