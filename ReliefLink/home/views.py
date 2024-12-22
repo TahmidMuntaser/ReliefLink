@@ -4,7 +4,9 @@ from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User, Group
-from .forms import SignUpForm
+from django.contrib.auth.hashers import check_password, make_password
+from .forms import SignUpForm, AssignDeputyCommissionarForm, UpdatePasswordForm
+from .models import DeputyCommissionar, DivisionalCommissionar, District, Division
 
 def index(request):
     return render(request, 'home/index.html')
@@ -101,3 +103,42 @@ def uno_dashboard(request):
 @login_required
 def public_dashboard(request):
     return render(request, 'home/public_dashboard.html')
+
+
+@login_required
+def divisional_commissionar(request):
+    try:
+        divisional_commissionar = DivisionalCommissionar.objects.get(name=request.user.username)
+    except DivisionalCommissionar.DoesNotExist:
+        return render(request, 'error.html', {'message': 'You are not authorized to access this page.'})
+
+    districts_in_division = District.objects.filter(division=divisional_commissionar.division)
+
+    if request.method == 'POST':
+        form = AssignDeputyCommissionarForm(request.POST)
+        form.fields['district'].queryset = districts_in_division  
+        
+        if form.is_valid():
+            form.save()
+            return redirect('success_page')  
+    else:
+        form = AssignDeputyCommissionarForm()
+        form.fields['district'].queryset = districts_in_division
+
+    return render(request, 'divisional_commissionar.html', {'form': form})
+
+
+def update_password(request):
+    if request.method == "POST":
+        form = UpdatePasswordForm(request.POST)
+        if form.is_valid():
+            commissioner = DivisionalCommissionar.objects.get(email=request.user.email)
+            if check_password(form.cleaned_data["current_password"], commissioner.password):
+                commissioner.password = make_password(form.cleaned_data["new_password"])
+                commissioner.save()
+                return redirect('password_update_success')
+            else:
+                form.add_error("current_password", "Current password is incorrect.")
+    else:
+        form = UpdatePasswordForm()
+    return render(request, 'update_password.html', {'form': form})

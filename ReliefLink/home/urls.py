@@ -13,4 +13,6 @@ urlpatterns = [
     path('dc_dashboard/', views.dc_dashboard, name='dc_dashboard'),
     path('uno_dashboard/', views.uno_dashboard, name='uno_dashboard'),
     path('public_dashboard/', views.public_dashboard, name='public_dashboard'),
+
+    path('divisional_commissionar/', views.divisional_commissionar, name='divisional_commissionar'),
 ]

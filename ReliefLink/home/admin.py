@@ -26,7 +26,7 @@ class UserAdmin(BaseUserAdmin):
 admin.site.register(User, UserAdmin)
 
 # Register your models
-from .models import YourModel, Division, District, Upazila, Union, Ward
+from .models import YourModel, Division, District, Upazila, Union, Ward, Housh
 
 from .models import DivisionalCommissionar, DeputyCommissionar, UNO, UnionChairman, WardMember
 
@@ -36,6 +36,7 @@ admin.site.register(District)
 admin.site.register(Upazila)
 admin.site.register(Union)
 admin.site.register(Ward)
+admin.site.register(Housh)
 
 
 admin.site.register(DivisionalCommissionar)

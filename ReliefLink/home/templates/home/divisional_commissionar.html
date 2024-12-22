@@ -1,0 +1,12 @@
+<!-- home/templates/home/login.html -->
+{% extends 'global/base.html' %}
+{% block title %}Divisional Commissionar{% endblock %}
+{% block content %}
+<h2>Divisional Commissionar</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+</form>
+{% endblock %}
