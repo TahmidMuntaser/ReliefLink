@@ -66,7 +66,7 @@ class DivisionalCommissionar(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
     email = models.EmailField(blank=False, null=False)
     division = models.OneToOneField(Division, on_delete=models.CASCADE)
-    password = models.CharField(max_length=128, blank=False, null=False)
+    password = models.CharField(max_length=128)
 
 
     def save(self, *args, **kwargs):

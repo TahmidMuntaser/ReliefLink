@@ -107,7 +107,7 @@ def divisional_commissionar(request):
         form = AssignDeputyCommissionarForm()
         form.fields['district'].queryset = districts_in_division
 
-    return render(request, 'divisional_commissionar.html', {'form': form})
+    return render(request, 'home/divisional_commissionar.html', {'form': form})
 
 def update_password(request):
     if request.method == "POST":

@@ -13,16 +13,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-
-from dotenv import load_dotenv, find_dotenv
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-dotenv_file = find_dotenv()
-# print("Found .env file at:", dotenv_file)
-load_dotenv(dotenv_file)
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+DEBUG = env.bool('DEBUG', default=True)
 
 
 # Static files (CSS, JavaScript, Images)
@@ -158,25 +155,13 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 
-
-# print("EMAIL_HOST_USER:", EMAIL_HOST_USER)
-# print("EMAIL_HOST_PASSWORD:", EMAIL_HOST_PASSWORD)
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-email-password'
-
-# sibly
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = env('EMAIL_HOST')
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_URL = '/accounts/login/'
 
