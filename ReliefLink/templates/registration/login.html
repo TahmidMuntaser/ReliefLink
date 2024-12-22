@@ -1,0 +1,21 @@
+<!-- home/templates/home/login.html -->
+{% extends 'global/base.html' %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+    <h2>Login Form</h2>
+
+    <form method = 'post'>
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="btn btn-primary" type='submit'>Login</button>
+    </form>
+    <p> Don't have an account
+        <a href="{% url "register" %}">Register Here</a>
+    </p>
+{% endblock %}
+
+
+
+
+
+

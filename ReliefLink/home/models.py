@@ -4,13 +4,6 @@ from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
 import random
 import string
-
-class YourModel(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
     
 class Division(models.Model):
     name = models.CharField(max_length=100)

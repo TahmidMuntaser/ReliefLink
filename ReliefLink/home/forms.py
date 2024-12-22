@@ -1,15 +1,16 @@
 # home/forms.py
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import DeputyCommissionar, DivisionalCommissionar, District
 
-class SignUpForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput)
-    role = forms.ChoiceField(choices=[('DC', 'District Commissioner'), ('UNO', 'UNO'), ('Public', 'Public User')])
-
+class UserRegistrationForm(UserCreationForm):
+    email = forms.EmailField()
+    
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'role']
+        fields = ('username', 'email', 'password1', 'password2')
+
 
 class AssignDeputyCommissionarForm(forms.ModelForm):
     name = forms.CharField(max_length=100, required=True, label='Enter Name')
@@ -23,8 +24,6 @@ class AssignDeputyCommissionarForm(forms.ModelForm):
         model = DeputyCommissionar
         fields = ['district', 'name', 'email']
 
-
-from django import forms
 
 class UpdatePasswordForm(forms.Form):
     current_password = forms.CharField(widget=forms.PasswordInput)
