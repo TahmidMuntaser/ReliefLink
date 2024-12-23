@@ -13,16 +13,13 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
-
-from dotenv import load_dotenv, find_dotenv
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-dotenv_file = find_dotenv()
-# print("Found .env file at:", dotenv_file)
-load_dotenv(dotenv_file)
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+DEBUG = env.bool('DEBUG', default=True)
 
 
 # Static files (CSS, JavaScript, Images)
@@ -56,7 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
-    'global'
+    'global',
     
 ]
 
@@ -76,7 +73,7 @@ ROOT_URLCONF = 'ReliefLink.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'global/templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 
 USE_I18N = True
 
@@ -158,6 +155,15 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# print("EMAIL_HOST_USER:", EMAIL_HOST_USER)
-# print("EMAIL_HOST_PASSWORD:", EMAIL_HOST_PASSWORD)
+LOGIN_URL = '/accounts/login/'
+
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

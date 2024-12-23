@@ -1,0 +1,10 @@
+<!-- home/templates/home/login.html -->
+{% extends 'global/base.html' %}
+{% block title %}Registration{% endblock %}
+{% block content %}
+<h2>Logged Out</h2>
+
+<p> You have been logged out
+    <a href="{% url "login" %}">Login Here</a>
+</p>
+{% endblock %}

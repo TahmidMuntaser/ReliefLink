@@ -25,18 +25,25 @@
                     <li><a href="{% url 'contact' %}">Contact</a></li>
                 </ul>
             </div>
+            
             <div class="navbar-right">
                 {% if user.is_authenticated %}
                     <div class="dropdown">
                         <button class="dropbtn">{{ user.username }} &#9662;</button>
                         <div class="dropdown-content">
                             <a href="{% url 'dashboard' %}">Dashboard</a>
-                            <a href="{% url 'logout' %}">Logout</a>
+
+                            {% comment %} You have to design the Logout button {% endcomment %}
+
+                            <form action="{% url "logout" %}" method='post'>
+                                {% csrf_token %}
+                                <button type='submit'>LogOut</button>
+                            </form>
                         </div>
                     </div>
                 {% else %}
                     <a href="{% url 'login' %}" class="login-button">Login</a>
-                    <a href="{% url 'signup' %}" class="join-button">Join Us</a>
+                    <a href="{% url 'register' %}" class="join-button">Join Us</a>
                 {% endif %}
             </div>
         </nav>
