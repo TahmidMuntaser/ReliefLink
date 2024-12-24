@@ -13,8 +13,4 @@ urlpatterns = [
     path('public_dashboard/', views.public_dashboard, name='public_dashboard'),
 
     path('divisional_commissionar/', views.divisional_commissionar, name='divisional_commissionar'),
-
-    path("register/", views.register, name='register'),
-
-    path("accounts/", include('django.contrib.auth.urls')),
 ]

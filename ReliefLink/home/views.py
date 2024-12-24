@@ -60,7 +60,7 @@ def register(request):
     content = {
         'form':form
     }
-    return render(request, 'registration/register.html', content)
+    return render(request, 'account/register.html', content)
 
     return render(request, 'home/signup_success.html')
 

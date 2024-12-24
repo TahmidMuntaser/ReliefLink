@@ -30,6 +30,26 @@ from .models import Division, District, Upazila, Union, Ward, Housh
 
 from .models import DivisionalCommissionar, DeputyCommissionar, UNO, UnionChairman, WardMember
 
+class DivisionalCommissionarAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'division']
+    exclude = ['password']
+
+class DeputyCommissionarAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'district']
+    exclude = ['password']
+
+class UNOAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'upazila']
+    exclude = ['password']
+
+class UnionChairmanAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'union']
+    exclude = ['password']
+
+class WardMemberAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'ward']
+    exclude = ['password']
+
 
 admin.site.register(Division)
 admin.site.register(District)
@@ -39,8 +59,8 @@ admin.site.register(Ward)
 admin.site.register(Housh)
 
 
-admin.site.register(DivisionalCommissionar)
-admin.site.register(DeputyCommissionar)
-admin.site.register(UNO)
-admin.site.register(UnionChairman)
-admin.site.register(WardMember)
+admin.site.register(DivisionalCommissionar, DivisionalCommissionarAdmin)
+admin.site.register(DeputyCommissionar, DeputyCommissionarAdmin)
+admin.site.register(UNO, UNOAdmin)
+admin.site.register(UnionChairman, UnionChairmanAdmin)
+admin.site.register(WardMember, WardMemberAdmin)
