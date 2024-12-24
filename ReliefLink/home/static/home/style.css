@@ -116,15 +116,21 @@
     z-index: 1;
 }
 
-.dropdown-content a {
+.dropdown-content a, .dropdown-content form button {
     color: #fff;
     padding: 0.5rem 1rem;
     text-decoration: none;
     display: block;
     transition: background-color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    font-size: 16px;
 }
 
-.dropdown-content a:hover {
+.dropdown-content a:hover, .dropdown-content form button:hover {
     background-color: #ff9800;
 }
 
