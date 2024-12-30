@@ -29,7 +29,11 @@
             <div class="navbar-right">
                 {% if user.is_authenticated %}
                     <div class="dropdown">
-                        <button class="dropbtn">{{ user.username }} &#9662;</button>
+                        {% if user.user_type == 'Admin' %}
+                            <button class="dropbtn">{{ user.email }} &#9662;</button>
+                        {% else %}
+                            <button class="dropbtn">{{ user.name }} &#9662;</button>
+                        {% endif %}
                         <div class="dropdown-content">
                             <a href="{% url 'dashboard' %}" class="dashboard-link">Dashboard</a>
                             <form action="{% url 'logout' %}" method='post'>
