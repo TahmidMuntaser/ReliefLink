@@ -8,9 +8,19 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     
     path('dashboard/', views.dashboard, name='dashboard'),
-    path('dc_dashboard/', views.dc_dashboard, name='dc_dashboard'),
+
+    path('divisionalcommissioner_dashboard/', views.divisionalcommissioner_dashboard, name='divisionalcommissioner_dashboard'),
+
+    path('deputycommissioner_dashboard/', views.deputycommissioner_dashboard, name='deputycommissioner_dashboard'),
+
     path('uno_dashboard/', views.uno_dashboard, name='uno_dashboard'),
+
+    path('unionchairman_dashboard/', views.unionchairman_dashboard, name='unionchairman_dashboard'),
+
+    path('wardmember_dashboard/', views.wardmember_dashboard, name='wardmember_dashboard'),
+
     path('public_dashboard/', views.public_dashboard, name='public_dashboard'),
 
-    path('divisional_commissionar/', views.divisional_commissionar, name='divisional_commissionar'),
+    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
+
 ]

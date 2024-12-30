@@ -1,12 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.hashers import check_password, make_password
-from .forms import AssignDeputyCommissionarForm, UpdatePasswordForm, UserRegistrationForm
-from .models import DeputyCommissionar, DivisionalCommissionar, District, Division
+from .forms import UpdatePasswordForm
+from .models import District, Division, Housh
+from django.contrib.auth import update_session_auth_hash
 
 
 def index(request):
@@ -44,43 +45,51 @@ def contact(request):
     return render(request, 'home/contact.html')
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password1'])
-            user.save()
-            login(request, user)
-            return redirect('home')
-
-    else:
-        form = UserRegistrationForm()
-
-    content = {
-        'form':form
-    }
-    return render(request, 'account/register.html', content)
-
-    return render(request, 'home/signup_success.html')
-
 @login_required
 def dashboard(request):
     user = request.user
-    if user.groups.filter(name='DC').exists():
-        return redirect('dc_dashboard')
-    elif user.groups.filter(name='UNO').exists():
+    role = user.user_type
+    if role == 'DivisionalCommissioner':
+        return redirect('divisionalcommissioner_dashboard')
+    
+    elif role == 'Admin':
+        return redirect('admin:index')
+    
+    elif role == 'DeputyCommissioner':
+        return redirect('deputycommissioner_dashboard')
+    
+    elif role == 'UNO':
         return redirect('uno_dashboard')
-    else:
+    
+    elif role == 'UnionChairman':
+        return redirect('unionchairman_dashboard')
+    
+    elif role == 'WardMember':
+        return redirect('wardmember_dashboard')
+    
+    elif role == 'Public':
         return redirect('public_dashboard')
 
 @login_required
-def dc_dashboard(request):
-    return render(request, 'home/dc_dashboard.html')
+def divisionalcommissioner_dashboard(request):
+    return render(request, 'home/divisionalcommissioner_dashboard.html')
+
+@login_required
+def deputycommissioner_dashboard(request):
+    return render(request, 'home/deputycommissioner_dashboard.html')
+
 
 @login_required
 def uno_dashboard(request):
     return render(request, 'home/uno_dashboard.html')
+
+@login_required
+def unionchairman_dashboard(request):
+    return render(request, 'home/unionchairman_dashboard.html')
+
+@login_required
+def wardmember_dashboard(request):
+    return render(request, 'home/wardmember_dashboard.html')
 
 @login_required
 def public_dashboard(request):
@@ -88,38 +97,36 @@ def public_dashboard(request):
 
 
 @login_required
-def divisional_commissionar(request):
-    try:
-        divisional_commissionar = DivisionalCommissionar.objects.get(name=request.user.username)
-    except DivisionalCommissionar.DoesNotExist:
-        return render(request, 'error.html', {'message': 'You are not authorized to access this page.'})
-
-    districts_in_division = District.objects.filter(division=divisional_commissionar.division)
-
-    if request.method == 'POST':
-        form = AssignDeputyCommissionarForm(request.POST)
-        form.fields['district'].queryset = districts_in_division  
-        
-        if form.is_valid():
-            form.save()
-            return redirect('success_page')  
-    else:
-        form = AssignDeputyCommissionarForm()
-        form.fields['district'].queryset = districts_in_division
-
-    return render(request, 'home/divisional_commissionar.html', {'form': form})
-
 def update_password(request):
-    if request.method == "POST":
+    if request.method == 'POST':
         form = UpdatePasswordForm(request.POST)
         if form.is_valid():
-            commissioner = DivisionalCommissionar.objects.get(email=request.user.email)
-            if check_password(form.cleaned_data["current_password"], commissioner.password):
-                commissioner.password = make_password(form.cleaned_data["new_password"])
-                commissioner.save()
-                return redirect('password_update_success')
+            user = request.user
+            current_password = form.cleaned_data['current_password']
+            new_password = form.cleaned_data['new_password']
+
+            # Verify current password
+            if not check_password(current_password, user.password):
+                form.add_error('current_password', "Incorrect current password.")
             else:
-                form.add_error("current_password", "Current password is incorrect.")
+                user.set_password(new_password)
+                user.save()
+                update_session_auth_hash(request, user)  # Keeps the user logged in after password change
+                return redirect('password_change_done')  # Replace with your success URL
     else:
         form = UpdatePasswordForm()
-    return render(request, 'update_password.html', {'form': form})
+
+    return render(request, 'home/update_password.html', {'form': form})
+
+
+
+
+def get_house_details(house_id):
+    house = get_object_or_404(Housh.objects.select_related(
+        'ward__union__upazila__district__division'
+    ), id=house_id)
+    return {
+        "holding_number": house.holding_number,
+        "ward": house.ward.name,
+        "division": house.ward.union.upazila.district.division.name,
+    }
