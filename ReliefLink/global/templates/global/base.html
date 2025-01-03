@@ -35,14 +35,15 @@
                             <button class="dropbtn">{{ user.name }} &#9662;</button>
                         {% endif %}
                         <div class="dropdown-content">
-                            <a href="{% url 'dashboard' %}" class="dashboard-link">Dashboard</a>
+                            <a href="{% url 'dashboard' %}">Dashboard</a>
                             <a href="{% url "update_password" %}" class="updatepassword-link">Password Update</a>
                             <form action="{% url 'logout' %}" method='post'>
                                 {% csrf_token %}
                                 <button type='submit' class="logout-button">LogOut</button>
                             </form>
                         </div>
-                    </div>
+                    </div>           
+                     
                 {% else %}
                     <a href="{% url 'login' %}" class="login-button">Login</a>
                     <a href="{% url 'register' %}" class="join-button">Join Us</a>
