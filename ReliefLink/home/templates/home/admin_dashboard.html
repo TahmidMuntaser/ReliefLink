@@ -1,11 +1,11 @@
 {% extends 'global/base.html' %}
-{% block title %}Deputy Commissioner Dashboard{% endblock %}
+{% block title %}Admin{% endblock %}
 {% block content %}
-<h2>Deputy Commissioner Dashboard</h2>
+<h2 style="text-align:center">Admin Dashboard</h2>
 
 <!-- Button to Create a New User -->
 <div style="margin-bottom: 20px;">
-    <a href="{% url 'add_uno' %}" class="btn btn-success">Create New User</a>
+    <a href="{% url 'add_divisionalcommissioner' %}" class="btn btn-success">Create New User</a>
 </div>
 
 <!-- Table to Display Deputy Commissioners -->
@@ -15,7 +15,7 @@
         <tr style="background-color: #f4f4f4;">
             <th style="padding: 8px;">Name</th>
             <th style="padding: 8px;">Email</th>
-            <th style="padding: 8px;">District</th>
+            <th style="padding: 8px;">Division</th>
             <th style="padding: 8px;">Actions</th>
         </tr>
     </thead>
