@@ -10,7 +10,7 @@
 
 <!-- Table to Display Deputy Commissioners -->
 <table border="1" style="width: 100%; border-collapse: collapse;">
-    <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Deputy Commissioners</caption>
+    <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Divisional Commissioners</caption>
     <thead>
         <tr style="background-color: #f4f4f4;">
             <th style="padding: 8px;">Name</th>
@@ -24,13 +24,13 @@
             <tr>
                 <td style="padding: 8px;">{{ user.name }}</td>
                 <td style="padding: 8px;">{{ user.email }}</td>
-                <td style="padding: 8px;">{{ user.district }}</td>
-                {% comment %} <td style="padding: 8px; text-align: center;">
-                    <form method="post" action="{% url 'home' user.id %}">
+                <td style="padding: 8px;">{{ user.division }}</td>
+                <td style="padding: 8px; text-align: center;">
+                    <form method="post" action="{% url 'delete_user' user.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                </td> {% endcomment %}
+                </td>
             </tr>
         {% empty %}
             <tr>

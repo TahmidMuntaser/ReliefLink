@@ -1,28 +1,25 @@
-# account/forms.py
-
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from home.models import Division, District, Upazila, Union, Ward, Housh
-
+from home.models import Division, District, Upazila, Union, Ward, Housh, PasswordUtility
 
 User = get_user_model()
 
-
-
-class UserCreationForm(UserCreationForm):
-    name = forms.CharField(max_length=100, required=True)
+class BaseUserForm(forms.Form):
     email = forms.EmailField(required=True)
-
-    class Meta:
-        model = User  # Use the custom user model
-        fields = ("name", "email", "password1", "password2")
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if User.objects.filter(email=email).exists():
             raise forms.ValidationError("A user with this email already exists.")
         return email
+
+class UserCreationForm(UserCreationForm, BaseUserForm):
+    name = forms.CharField(max_length=100, required=True)
+
+    class Meta:
+        model = User
+        fields = ("name", "email", "password1", "password2")
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -33,17 +30,9 @@ class UserCreationForm(UserCreationForm):
             user.save()
         return user
 
-
 class LoginForm(forms.Form):
-    email = forms.EmailField(
-        label="Email",
-        widget=forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}) 
-    )
-    password = forms.CharField(
-        label="Password",
-        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'})
-    )
-    
+    email = forms.EmailField(label="Email")
+    password = forms.CharField(widget=forms.PasswordInput, label="Password")
 
 class UpdatePasswordForm(forms.Form):
     current_password = forms.CharField(
@@ -72,10 +61,8 @@ class UpdatePasswordForm(forms.Form):
 
         return cleaned_data
 
-
-class AddDivisionalCommissionerForm(forms.Form):
+class AddDivisionalCommissionerForm(BaseUserForm):
     name = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(required=True)
     division = forms.ModelChoiceField(
         queryset=Division.objects.exclude(
             id__in=User.objects.filter(user_type='DivisionalCommissioner', division_id__isnull=False)
@@ -85,12 +72,6 @@ class AddDivisionalCommissionerForm(forms.Form):
         required=True
     )
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("A user with this email already exists.")
-        return email
-
     def save(self, commit=True):
         user = User(
             email=self.cleaned_data["email"],
@@ -98,14 +79,17 @@ class AddDivisionalCommissionerForm(forms.Form):
             user_type='DivisionalCommissioner',
             division=self.cleaned_data["division"]
         )
+
+        raw_password = PasswordUtility.generate_password()
+        user.set_password(raw_password)
         if commit:
-            user.set_password(User.objects.make_random_password())  # Optional: Generate a random password
             user.save()
+            PasswordUtility.send_password_email(user.name, user.email, raw_password)
+
         return user
 
-class AddDeputyCommissionerForm(forms.Form):
+class AddDeputyCommissionerForm(BaseUserForm):
     name = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(required=True)
     district = forms.ModelChoiceField(
         queryset=District.objects.none(), 
         empty_label="Select District",
@@ -116,19 +100,12 @@ class AddDeputyCommissionerForm(forms.Form):
         self.user = kwargs.pop('user', None) 
         super().__init__(*args, **kwargs)
         if self.user and self.user.user_type == 'DivisionalCommissioner':
-            
             self.fields['district'].queryset = District.objects.filter(
                 division=self.user.division
             ).exclude(
                 id__in=User.objects.filter(user_type='DeputyCommissioner')
                                    .values_list('district_id', flat=True)
             )
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("A user with this email already exists.")
-        return email
 
     def save(self, commit=True):
         user = User(
@@ -138,13 +115,12 @@ class AddDeputyCommissionerForm(forms.Form):
             district=self.cleaned_data["district"]
         )
         if commit:
-            user.set_password(User.objects.make_random_password())  
+            user.set_password(User.objects.make_random_password())
             user.save()
         return user
 
-class AddUNOForm(forms.Form):
+class AddUNOForm(BaseUserForm):
     name = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(required=True)
     upazila = forms.ModelChoiceField(
         queryset=Upazila.objects.none(), 
         empty_label="Select Upazila",
@@ -155,7 +131,6 @@ class AddUNOForm(forms.Form):
         self.user = kwargs.pop('user', None) 
         super().__init__(*args, **kwargs)
         if self.user and self.user.user_type == 'DeputyCommissioner':
-            
             self.fields['upazila'].queryset = Upazila.objects.filter(
                 district=self.user.district
             ).exclude(
@@ -163,27 +138,20 @@ class AddUNOForm(forms.Form):
                                    .values_list('upazila_id', flat=True)
             )
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("A user with this email already exists.")
-        return email
-
     def save(self, commit=True):
         user = User(
             email=self.cleaned_data["email"],
             name=self.cleaned_data["name"],
-            user_type='DeputyCommissioner',
+            user_type='UNO',
             upazila=self.cleaned_data["upazila"]
         )
         if commit:
-            user.set_password(User.objects.make_random_password())  
+            user.set_password(User.objects.make_random_password())
             user.save()
         return user
 
-class AddUnionChairmanForm(forms.Form):
+class AddUnionChairmanForm(BaseUserForm):
     name = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(required=True)
     union = forms.ModelChoiceField(
         queryset=Union.objects.none(), 
         empty_label="Select Union",
@@ -194,19 +162,12 @@ class AddUnionChairmanForm(forms.Form):
         self.user = kwargs.pop('user', None) 
         super().__init__(*args, **kwargs)
         if self.user and self.user.user_type == 'UNO':
-            
             self.fields['union'].queryset = Union.objects.filter(
                 upazila=self.user.upazila
             ).exclude(
                 id__in=User.objects.filter(user_type='UnionChairman')
                                    .values_list('union_id', flat=True)
             )
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("A user with this email already exists.")
-        return email
 
     def save(self, commit=True):
         user = User(
@@ -216,13 +177,12 @@ class AddUnionChairmanForm(forms.Form):
             union=self.cleaned_data["union"]
         )
         if commit:
-            user.set_password(User.objects.make_random_password())  
+            user.set_password(User.objects.make_random_password())
             user.save()
         return user
 
-class AddWardMemberForm(forms.Form):
+class AddWardMemberForm(BaseUserForm):
     name = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(required=True)
     ward = forms.ModelChoiceField(
         queryset=Ward.objects.none(), 
         empty_label="Select Ward",
@@ -233,19 +193,12 @@ class AddWardMemberForm(forms.Form):
         self.user = kwargs.pop('user', None) 
         super().__init__(*args, **kwargs)
         if self.user and self.user.user_type == 'UnionChairman':
-            
             self.fields['ward'].queryset = Ward.objects.filter(
                 union=self.user.union
             ).exclude(
                 id__in=User.objects.filter(user_type='WardMember')
                                    .values_list('ward_id', flat=True)
             )
-
-    def clean_email(self):
-        email = self.cleaned_data.get('email')
-        if User.objects.filter(email=email).exists():
-            raise forms.ValidationError("A user with this email already exists.")
-        return email
 
     def save(self, commit=True):
         user = User(
@@ -255,9 +208,10 @@ class AddWardMemberForm(forms.Form):
             ward=self.cleaned_data["ward"]
         )
         if commit:
-            user.set_password(User.objects.make_random_password())  
+            user.set_password(User.objects.make_random_password())
             user.save()
         return user
 
 class AddHouseForm(forms.Form):
+    # Placeholder for AddHouseForm implementation.
     pass
