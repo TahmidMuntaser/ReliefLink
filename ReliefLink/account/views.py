@@ -121,22 +121,24 @@ def add_divisionalcommissioner_view(request):
 @login_required
 def add_deputycommissioner_view(request):
     if request.method == 'POST':
-        form = AddDeputyCommissionerForm(request.POST)
+        form = AddDeputyCommissionerForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('dashboard')
     else:
         form = AddDeputyCommissionerForm(user=request.user)
+
     return render(request, 'account/addDeputyCommissioner.html', {'form': form})
+
 
 
 @login_required
 def add_uno_view(request):
     if request.method == 'POST':
-        form = AddUNOForm(request.POST)
+        form = AddUNOForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('dashboard')
     else:
         form = AddUNOForm(user=request.user)
     return render(request, 'account/addUNO.html', {'form': form})
@@ -145,10 +147,10 @@ def add_uno_view(request):
 @login_required
 def add_unionchairman_view(request):
     if request.method == 'POST':
-        form = AddUnionChairmanForm(request.POST)
+        form = AddUnionChairmanForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('dashboard')
     else:
         form = AddUnionChairmanForm(user=request.user)
     return render(request, 'account/addUnionChairman.html', {'form': form})
@@ -158,10 +160,10 @@ def add_unionchairman_view(request):
 @login_required
 def add_wardmember_view(request):
     if request.method == 'POST':
-        form = AddWardMemberForm(request.POST)
+        form = AddWardMemberForm(request.POST, user=request.user)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            return redirect('dashboard')
     else:
         form = AddWardMemberForm(user=request.user)
     return render(request, 'account/addWardMember.html', {'form': form})
