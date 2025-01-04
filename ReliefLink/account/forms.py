@@ -114,9 +114,12 @@ class AddDeputyCommissionerForm(BaseUserForm):
             user_type='DeputyCommissioner',
             district=self.cleaned_data["district"]
         )
+        raw_password = PasswordUtility.generate_password()
+        user.set_password(raw_password)
         if commit:
-            user.set_password(User.objects.make_random_password())
             user.save()
+            PasswordUtility.send_password_email(user.name, user.email, raw_password)
+
         return user
 
 class AddUNOForm(BaseUserForm):
@@ -145,9 +148,12 @@ class AddUNOForm(BaseUserForm):
             user_type='UNO',
             upazila=self.cleaned_data["upazila"]
         )
+        raw_password = PasswordUtility.generate_password()
+        user.set_password(raw_password)
         if commit:
-            user.set_password(User.objects.make_random_password())
             user.save()
+            PasswordUtility.send_password_email(user.name, user.email, raw_password)
+
         return user
 
 class AddUnionChairmanForm(BaseUserForm):
@@ -176,9 +182,12 @@ class AddUnionChairmanForm(BaseUserForm):
             user_type='UnionChairman',
             union=self.cleaned_data["union"]
         )
+        raw_password = PasswordUtility.generate_password()
+        user.set_password(raw_password)
         if commit:
-            user.set_password(User.objects.make_random_password())
             user.save()
+            PasswordUtility.send_password_email(user.name, user.email, raw_password)
+
         return user
 
 class AddWardMemberForm(BaseUserForm):
@@ -207,9 +216,12 @@ class AddWardMemberForm(BaseUserForm):
             user_type='WardMember',
             ward=self.cleaned_data["ward"]
         )
+        raw_password = PasswordUtility.generate_password()
+        user.set_password(raw_password)
         if commit:
-            user.set_password(User.objects.make_random_password())
             user.save()
+            PasswordUtility.send_password_email(user.name, user.email, raw_password)
+
         return user
 
 class AddHouseForm(forms.Form):
