@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import Housh
 from django.contrib.auth import get_user_model
+from .forms import *
 
 User = get_user_model()
 
@@ -108,8 +109,9 @@ def unionchairman_dashboard(request):
 
 @login_required
 def wardmember_dashboard(request):
+    houses = Housh.objects.filter(ward = request.user.ward)
 
-    return render(request, 'home/wardmember_dashboard.html')
+    return render(request, 'home/wardmember_dashboard.html', {'houses': houses})
 
 @login_required
 def public_dashboard(request):
