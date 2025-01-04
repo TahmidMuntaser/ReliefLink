@@ -1,32 +1,52 @@
 .contact-section {
     padding: 60px 20px;
-    text-align: center;
     background-color: #ffffff;
     font-family: 'Poppins', sans-serif;
     color: #333;
 }
 
-.contact-section h2 {
+.contact-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-info {
+    flex: 1;
+    padding-right: 20px;
+    padding-top: 70px;
+}
+
+.contact-info h2 {
     font-size: 2.5em;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     color: #333;
     font-family: 'Lobster', cursive;
 }
 
-.contact-section form {
+.contact-info p {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.contact-form {
+    flex: 1;
     max-width: 600px;
-    margin: 0 auto;
+}
+
+.contact-form form {
     display: flex;
     flex-direction: column;
     background: white;
     padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-
-.contact-section input,
-.contact-section textarea {
+.contact-form input,
+.contact-form textarea {
     padding: 15px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
@@ -36,15 +56,14 @@
     transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.contact-section input:focus,
-.contact-section textarea:focus {
-    border-color: #ff9800;
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #e2d9d9;
     box-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
     outline: none;
 }
 
-
-.contact-section button {
+.contact-form button {
     background-color: #ff9800;
     color: white;
     padding: 15px;
@@ -55,13 +74,12 @@
     transition: background-color 0.3s, transform 0.3s;
 }
 
-.contact-section button:hover {
+.contact-form button:hover {
     background-color: #e68900;
     transform: scale(1.05);
     transition: transform 1s ease;
 }
 
-.contact-section button:active {
+.contact-form button:active {
     transform: scale(1);
-   
 }
