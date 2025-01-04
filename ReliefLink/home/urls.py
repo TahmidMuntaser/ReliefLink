@@ -1,3 +1,5 @@
+# home/urls.py
+
 from django.urls import path, include
 from . import views
 from django.contrib.auth.urls import views as auth_views
@@ -8,6 +10,8 @@ urlpatterns = [
     path('contact/', views.contact, name='contact'),
     
     path('dashboard/', views.dashboard, name='dashboard'),
+
+    path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
 
     path('divisionalcommissioner_dashboard/', views.divisionalcommissioner_dashboard, name='divisionalcommissioner_dashboard'),
 
@@ -20,7 +24,5 @@ urlpatterns = [
     path('wardmember_dashboard/', views.wardmember_dashboard, name='wardmember_dashboard'),
 
     path('public_dashboard/', views.public_dashboard, name='public_dashboard'),
-
-    path('password_reset/', auth_views.PasswordResetView.as_view(), name='password_reset'),
 
 ]

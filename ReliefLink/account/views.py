@@ -1,3 +1,5 @@
+# account/views.py
+
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import *
@@ -32,12 +34,12 @@ def logout_view(request):
 
 def register_view(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('login')
     else:
-        form = CustomUserCreationForm()
+        form = UserCreationForm()
     return render(request, 'account/register.html', {'form': form})
 
 
@@ -71,3 +73,93 @@ def updatepassword_view(request):
     else:
         form = UpdatePasswordForm()
     return render(request, 'account/updatepassword.html', {'form': form})
+
+
+@login_required
+def add_user_view(request):
+    if request.user.user_type == 'Admin':
+        return redirect('add_divisionalcommissioner')
+    
+    elif request.user.user_type == 'DivisionalCommissioner':
+        return redirect('add_deputycommissioner')
+    
+    elif request.user.user_type == 'DeputyCommissioner':
+        return redirect('add_uno')
+    
+    elif request.user.user_type == 'UNO':
+        return redirect('add_unionchairman')
+    
+    elif request.user.user_type == 'UnionChairman':
+        return redirect('add_wardmember')
+    
+    elif request.user.user_type == 'WardMember':
+        return redirect('add_house')
+
+
+
+@login_required
+def add_divisionalcommissioner_view(request):
+    if request.method == 'POST':
+        form = AddDivisionalCommissionerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = AddDivisionalCommissionerForm()
+    return render(request, 'account/addDivisionalCommissioner.html', {'form': form})
+
+
+
+@login_required
+def add_deputycommissioner_view(request):
+    if request.method == 'POST':
+        form = AddDeputyCommissionerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = AddDeputyCommissionerForm(user=request.user)
+    return render(request, 'account/addDeputyCommissioner.html', {'form': form})
+
+
+@login_required
+def add_uno_view(request):
+    if request.method == 'POST':
+        form = AddUNOForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = AddUNOForm(user=request.user)
+    return render(request, 'account/addUNO.html', {'form': form})
+
+
+@login_required
+def add_unionchairman_view(request):
+    if request.method == 'POST':
+        form = AddUnionChairmanForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = AddUnionChairmanForm(user=request.user)
+    return render(request, 'account/addUnionChairman.html', {'form': form})
+
+
+
+@login_required
+def add_wardmember_view(request):
+    if request.method == 'POST':
+        form = AddWardMemberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = AddWardMemberForm(user=request.user)
+    return render(request, 'account/addWardMember.html', {'form': form})
+
+
+
+@login_required
+def add_house_view(request):
+    pass

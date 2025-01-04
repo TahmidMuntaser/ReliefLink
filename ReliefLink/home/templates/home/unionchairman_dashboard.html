@@ -1,7 +1,42 @@
-<!-- home/templates/home/login.html -->
 {% extends 'global/base.html' %}
-{% block title %}Union Chairman{% endblock %}
+{% block title %}Union Chairman Dashboard{% endblock %}
 {% block content %}
-<h2>Union Chairman</h2>
+<h2>Union Chairman Dashboard</h2>
 
+<!-- Button to Create a New User -->
+<div style="margin-bottom: 20px;">
+    <a href="{% url 'add_wardmember' %}" class="btn btn-success">Create New User</a>
+</div>
+
+<!-- Table to Display Deputy Commissioners -->
+<table border="1" style="width: 100%; border-collapse: collapse;">
+    <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Deputy Commissioners</caption>
+    <thead>
+        <tr style="background-color: #f4f4f4;">
+            <th style="padding: 8px;">Name</th>
+            <th style="padding: 8px;">Email</th>
+            <th style="padding: 8px;">District</th>
+            <th style="padding: 8px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in data %}
+            <tr>
+                <td style="padding: 8px;">{{ user.name }}</td>
+                <td style="padding: 8px;">{{ user.email }}</td>
+                <td style="padding: 8px;">{{ user.district }}</td>
+                {% comment %} <td style="padding: 8px; text-align: center;">
+                    <form method="post" action="{% url 'home' user.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </td> {% endcomment %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="4" style="text-align: center; padding: 8px;">No Deputy Commissioners found.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

@@ -1,13 +1,19 @@
+# home/views.py
+
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
-from django.contrib.auth.models import User, Group
-from django.contrib.auth.hashers import check_password, make_password
-from .forms import UpdatePasswordForm
-from .models import District, Division, Housh
-from django.contrib.auth import update_session_auth_hash
+from .models import Housh
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+def can_add_user(user):
+    return user.has_perm('home.can_add_user')
+
+def can_remove_user(user):
+    return user.has_perm('home.can_remove_user')
 
 
 def index(request):
@@ -53,7 +59,7 @@ def dashboard(request):
         return redirect('divisionalcommissioner_dashboard')
     
     elif role == 'Admin':
-        return redirect('admin:index')
+        return redirect('admin_dashboard')
     
     elif role == 'DeputyCommissioner':
         return redirect('deputycommissioner_dashboard')
@@ -69,56 +75,45 @@ def dashboard(request):
     
     elif role == 'Public':
         return redirect('public_dashboard')
+    
+@login_required
+def admin_dashboard(request):
+    data = User.objects.filter(user_type='DivisionalCommissioner')
+    return render(request, 'home/admin_dashboard.html', {'data': data})
 
 @login_required
 def divisionalcommissioner_dashboard(request):
-    return render(request, 'home/divisionalcommissioner_dashboard.html')
+    data = User.objects.filter(user_type='DeputyCommissioner')
+
+    return render(request, 'home/divisionalcommissioner_dashboard.html', {'data':data})
 
 @login_required
 def deputycommissioner_dashboard(request):
-    return render(request, 'home/deputycommissioner_dashboard.html')
+    data = User.objects.filter(user_type='UNO')
+
+    return render(request, 'home/deputycommissioner_dashboard.html', {'data':data})
 
 
 @login_required
 def uno_dashboard(request):
-    return render(request, 'home/uno_dashboard.html')
+    data = User.objects.filter(user_type='UnionChairman')
+
+    return render(request, 'home/uno_dashboard.html', {'data':data})
 
 @login_required
 def unionchairman_dashboard(request):
-    return render(request, 'home/unionchairman_dashboard.html')
+    data = User.objects.filter(user_type='WardMember')
+
+    return render(request, 'home/unionchairman_dashboard.html', {'data':data})
 
 @login_required
 def wardmember_dashboard(request):
+
     return render(request, 'home/wardmember_dashboard.html')
 
 @login_required
 def public_dashboard(request):
     return render(request, 'home/public_dashboard.html')
-
-
-@login_required
-def update_password(request):
-    if request.method == 'POST':
-        form = UpdatePasswordForm(request.POST)
-        if form.is_valid():
-            user = request.user
-            current_password = form.cleaned_data['current_password']
-            new_password = form.cleaned_data['new_password']
-
-            # Verify current password
-            if not check_password(current_password, user.password):
-                form.add_error('current_password', "Incorrect current password.")
-            else:
-                user.set_password(new_password)
-                user.save()
-                update_session_auth_hash(request, user)  # Keeps the user logged in after password change
-                return redirect('password_change_done')  # Replace with your success URL
-    else:
-        form = UpdatePasswordForm()
-
-    return render(request, 'home/update_password.html', {'form': form})
-
-
 
 
 def get_house_details(house_id):

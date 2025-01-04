@@ -7,6 +7,7 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.contrib.auth.models import Permission
 import random
 import string
 import logging
@@ -109,7 +110,6 @@ class PasswordUtility:
         except Exception as e:
             logger.error(f"Failed to send email to {email}: {e}")
 
-
 class CustomUser(AbstractUser):
     USER_TYPES = (
         ('Admin', 'Admin'),
@@ -124,26 +124,59 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)  # Use email as the username
     name = models.CharField(max_length=100, blank=False, null=False)
     user_type = models.CharField(max_length=30, choices=USER_TYPES)
-    division = models.ForeignKey(Division, null=True, blank=True, on_delete=models.SET_NULL)
-    district = models.ForeignKey(District, null=True, blank=True, on_delete=models.SET_NULL)
-    upazila = models.ForeignKey(Upazila, null=True, blank=True, on_delete=models.SET_NULL)
-    union = models.ForeignKey(Union, null=True, blank=True, on_delete=models.SET_NULL)
-    ward = models.ForeignKey(Ward, null=True, blank=True, on_delete=models.SET_NULL)
-
+    
+    # Place relationships
+    division = models.OneToOneField(
+        'Division', null=True, blank=True, on_delete=models.SET_NULL
+    )
+    district = models.OneToOneField(
+        'District', null=True, blank=True, on_delete=models.SET_NULL
+    )
+    upazila = models.OneToOneField(
+        'Upazila', null=True, blank=True, on_delete=models.SET_NULL
+    )
+    union = models.OneToOneField(
+        'Union', null=True, blank=True, on_delete=models.SET_NULL
+    )
+    ward = models.OneToOneField(
+        'Ward', null=True, blank=True, on_delete=models.SET_NULL
+    )
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['user_type']
 
-    # Use the custom user manager
+    class Meta:
+        permissions = [
+            ("can_add_user", "Can add a user"),
+            ("can_remove_user", "Can remove a user"),
+        ]
+
     objects = CustomUserManager()
+
+    def clean(self):
+        """
+        Enforce the rules based on user_type.
+        """
+        super().clean()
+        
+        if self.user_type == 'DivisionalCommissioner' and not self.division:
+            raise ValidationError("A Divisional Commissioner must be linked to a Division.")
+        if self.user_type == 'DeputyCommissioner' and not self.district:
+            raise ValidationError("A Deputy Commissioner must be linked to a District.")
+        if self.user_type == 'UNO' and not self.upazila:
+            raise ValidationError("A UNO must be linked to an Upazila.")
+        if self.user_type == 'UnionChairman' and not self.union:
+            raise ValidationError("A Union Chairman must be linked to a Union.")
+        if self.user_type == 'WardMember' and not self.ward:
+            raise ValidationError("A Ward Member must be linked to a Ward.")
+        
+        # Ensure admin and other types do not have place fields set
+        if self.user_type in ['Admin', 'Public']:
+            if any([self.division, self.district, self.upazila, self.union, self.ward]):
+                raise ValidationError(f"A user of type {self.user_type} should not be linked to any place field.")
 
     def __str__(self):
         return f"{self.name} ({self.user_type})"
-    
-    # def clean(self):
-    #     if self.user_type in ['Admin', 'DivisionalCommissioner']:
-    #         if not self.email.endswith('@organization.com'):
-    #             raise ValidationError("Email must belong to @organization.com domain.")
-    #     super().clean()
 
 
 @receiver(post_save, sender=CustomUser)
@@ -153,3 +186,12 @@ def handle_new_user(sender, instance, created, **kwargs):
         instance.set_password(raw_password)
         instance.save()
         PasswordUtility.send_password_email(instance.name, instance.email, raw_password)
+        
+        # Assign permissions based on user type
+        if instance.user_type != 'Public':
+            if instance.user_type in ['Admin', 'DivisionalCommissioner', 'DeputyCommissioner', 'UNO', 'UnionChairman', 'WardMember']:
+                instance.user_permissions.add(
+                    Permission.objects.get(codename='can_add_user'),
+                    Permission.objects.get(codename='can_remove_user'),
+                )
+        instance.save()
