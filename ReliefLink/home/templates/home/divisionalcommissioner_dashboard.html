@@ -25,12 +25,12 @@
                 <td style="padding: 8px;">{{ user.name }}</td>
                 <td style="padding: 8px;">{{ user.email }}</td>
                 <td style="padding: 8px;">{{ user.district }}</td>
-                {% comment %} <td style="padding: 8px; text-align: center;">
-                    <form method="post" action="{% url 'home' user.id %}">
+                <td style="padding: 8px; text-align: center;">
+                    <form method="post" action="{% url 'delete_user' user.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
-                </td> {% endcomment %}
+                </td>
             </tr>
         {% empty %}
             <tr>

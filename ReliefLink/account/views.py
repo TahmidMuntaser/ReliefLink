@@ -1,6 +1,6 @@
 # account/views.py
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .forms import *
 from django.contrib.auth.decorators import login_required
@@ -74,6 +74,14 @@ def updatepassword_view(request):
         form = UpdatePasswordForm()
     return render(request, 'account/updatepassword.html', {'form': form})
 
+
+@login_required
+def delete_user_view(request, user_id):
+    if request.method == 'POST':
+        user = get_object_or_404(User, id=user_id)
+        user.delete()
+        messages.success(request, f"User '{user.name}' has been successfully deleted.")
+    return redirect('home')
 
 @login_required
 def add_user_view(request):
