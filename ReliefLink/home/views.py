@@ -84,26 +84,26 @@ def admin_dashboard(request):
 
 @login_required
 def divisionalcommissioner_dashboard(request):
-    data = User.objects.filter(user_type='DeputyCommissioner')
+    data = User.objects.filter(user_type='DeputyCommissioner', district__division = request.user.division)
 
     return render(request, 'home/divisionalcommissioner_dashboard.html', {'data':data})
 
 @login_required
 def deputycommissioner_dashboard(request):
-    data = User.objects.filter(user_type='UNO')
+    data = User.objects.filter(user_type='UNO', upazila__district = request.user.district)
 
     return render(request, 'home/deputycommissioner_dashboard.html', {'data':data})
 
 
 @login_required
 def uno_dashboard(request):
-    data = User.objects.filter(user_type='UnionChairman')
+    data = User.objects.filter(user_type='UnionChairman', union__upazila = request.user.upazila)
 
     return render(request, 'home/uno_dashboard.html', {'data':data})
 
 @login_required
 def unionchairman_dashboard(request):
-    data = User.objects.filter(user_type='WardMember')
+    data = User.objects.filter(user_type='WardMember', ward__union = request.user.union)
 
     return render(request, 'home/unionchairman_dashboard.html', {'data':data})
 
