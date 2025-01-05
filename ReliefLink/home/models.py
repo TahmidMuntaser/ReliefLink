@@ -32,6 +32,7 @@ class CustomUserManager(BaseUserManager):
 
 class Division(models.Model):
     name = models.CharField(max_length=100)
+    is_flood = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -39,6 +40,7 @@ class Division(models.Model):
 class District(models.Model):
     name = models.CharField(max_length=100)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
+    is_flood = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -46,6 +48,7 @@ class District(models.Model):
 class Upazila(models.Model):
     name = models.CharField(max_length=100)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
+    is_flood = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -53,6 +56,7 @@ class Upazila(models.Model):
 class Union(models.Model):
     name = models.CharField(max_length=100)
     upazila = models.ForeignKey(Upazila, on_delete=models.CASCADE)
+    is_flood = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -60,6 +64,7 @@ class Union(models.Model):
 class Ward(models.Model):
     name = models.CharField(max_length=100)
     union = models.ForeignKey(Union, on_delete=models.CASCADE)
+    is_flood = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

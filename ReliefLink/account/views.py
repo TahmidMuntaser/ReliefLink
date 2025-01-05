@@ -81,7 +81,7 @@ def delete_user_view(request, user_id):
         user = get_object_or_404(User, id=user_id)
         user.delete()
         messages.success(request, f"User '{user.name}' has been successfully deleted.")
-    return redirect('home')
+    return redirect('dashboard')
 
 @login_required
 def add_user_view(request):
@@ -172,4 +172,38 @@ def add_wardmember_view(request):
 
 @login_required
 def add_house_view(request):
-    pass
+    if request.method == 'POST':
+        form = AddHouseForm(request.POST)
+        if form.is_valid():
+            house = form.save(commit=False)  # Create the instance but don't save it yet
+            house.ward = request.user.ward  # Set the ward to user's ward
+            house.save()  # Now save the instance
+            return redirect('dashboard')
+    else:
+        form = AddHouseForm()
+    return render(request, 'account/addHouse.html', {'form': form})
+
+
+@login_required
+def delete_house_view(request, house_id):
+    if request.method == 'POST':
+        house = get_object_or_404(Housh, id=house_id)
+        house.delete()
+        messages.success(request, f"House '{house.holding_number}' has been successfully deleted.")
+    return redirect('dashboard')
+
+@login_required
+def born_view(request, house_id):
+    if request.method == 'POST':
+        house = get_object_or_404(Housh, id = house_id)
+        house.family_member += 1
+        house.save()
+    return redirect('dashboard')
+
+@login_required
+def death_view(request, house_id):
+    if request.method == 'POST':
+        house = get_object_or_404(Housh, id = house_id)
+        house.family_member -= 1
+        house.save()
+    return redirect('dashboard')

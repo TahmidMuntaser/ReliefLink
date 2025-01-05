@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .models import Housh
 from django.contrib.auth import get_user_model
+from .forms import *
 
 User = get_user_model()
 
@@ -83,33 +84,34 @@ def admin_dashboard(request):
 
 @login_required
 def divisionalcommissioner_dashboard(request):
-    data = User.objects.filter(user_type='DeputyCommissioner')
+    data = User.objects.filter(user_type='DeputyCommissioner', district__division = request.user.division)
 
     return render(request, 'home/divisionalcommissioner_dashboard.html', {'data':data})
 
 @login_required
 def deputycommissioner_dashboard(request):
-    data = User.objects.filter(user_type='UNO')
+    data = User.objects.filter(user_type='UNO', upazila__district = request.user.district)
 
     return render(request, 'home/deputycommissioner_dashboard.html', {'data':data})
 
 
 @login_required
 def uno_dashboard(request):
-    data = User.objects.filter(user_type='UnionChairman')
+    data = User.objects.filter(user_type='UnionChairman', union__upazila = request.user.upazila)
 
     return render(request, 'home/uno_dashboard.html', {'data':data})
 
 @login_required
 def unionchairman_dashboard(request):
-    data = User.objects.filter(user_type='WardMember')
+    data = User.objects.filter(user_type='WardMember', ward__union = request.user.union)
 
     return render(request, 'home/unionchairman_dashboard.html', {'data':data})
 
 @login_required
 def wardmember_dashboard(request):
+    houses = Housh.objects.filter(ward = request.user.ward)
 
-    return render(request, 'home/wardmember_dashboard.html')
+    return render(request, 'home/wardmember_dashboard.html', {'houses': houses})
 
 @login_required
 def public_dashboard(request):
