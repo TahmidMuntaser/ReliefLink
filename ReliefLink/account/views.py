@@ -184,3 +184,26 @@ def add_house_view(request):
     return render(request, 'account/addHouse.html', {'form': form})
 
 
+@login_required
+def delete_house_view(request, house_id):
+    if request.method == 'POST':
+        house = get_object_or_404(Housh, id=house_id)
+        house.delete()
+        messages.success(request, f"House '{house.holding_number}' has been successfully deleted.")
+    return redirect('dashboard')
+
+@login_required
+def born_view(request, house_id):
+    if request.method == 'POST':
+        house = get_object_or_404(Housh, id = house_id)
+        house.family_member += 1
+        house.save()
+    return redirect('dashboard')
+
+@login_required
+def death_view(request, house_id):
+    if request.method == 'POST':
+        house = get_object_or_404(Housh, id = house_id)
+        house.family_member -= 1
+        house.save()
+    return redirect('dashboard')

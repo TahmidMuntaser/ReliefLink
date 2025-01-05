@@ -15,7 +15,10 @@
         <tr style="background-color: #f4f4f4;">
             <th style="padding: 8px;">Holding Number</th>
             <th style="padding: 8px;">Ward</th>
-            <th style="padding: 8px;">Actions</th>
+            <th style="padding: 8px;">Member</th>
+            
+            <th style="padding: 8px;">Born</th>
+            <th style="padding: 8px;">Death</th>
         </tr>
     </thead>
     <tbody>
@@ -23,8 +26,15 @@
             <tr>
                 <td style="padding: 8px;">{{ house.holding_number }}</td>
                 <td style="padding: 8px;">{{ house.ward }}</td>
+                <td style="padding: 8px;">{{ house.family_member }}</td>
                 <td style="padding: 8px; text-align: center;">
-                    <form method="post" action="{% url 'delete_user' house.id %}">
+                    <form method="post" action="{% url 'born' house.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-success">Add</button>
+                    </form>
+                </td>
+                <td style="padding: 8px; text-align: center;">
+                    <form method="post" action="{% url 'death' house.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
