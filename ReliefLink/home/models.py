@@ -45,6 +45,12 @@ class Division(models.Model):
             floody_districts.append(district_id)
             self.set_floody_districts(floody_districts)
 
+    def remove_floody_district(self, district_id):
+        floody_districts = self.get_floody_districts()
+        if district_id in floody_districts:
+            floody_districts.remove(district_id)
+            self.set_floody_districts(floody_districts)
+
     def get_floody_districts(self):
         try:
             return json.loads(self.floody_districts)
@@ -69,6 +75,13 @@ class District(models.Model):
             floody_upazilas.append(upazila_id)
             self.set_floody_upazilas(floody_upazilas)
             self.division.add_floody_district(self.id)
+
+    def remove_floody_upazila(self, upazila_id):
+        floody_upazilas = self.get_floody_upazilas()
+        if upazila_id in floody_upazilas:
+            floody_upazilas.remove(upazila_id)
+            self.set_floody_upazilas(floody_upazilas)
+            self.division.remove_floody_district(self.id)
 
     def get_floody_upazilas(self):
         try:
@@ -95,6 +108,13 @@ class Upazila(models.Model):
             self.set_floody_unions(floody_unions)
             self.district.add_floody_upazila(self.id)
 
+    def remove_floody_union(self, union_id):
+        floody_unions = self.get_floody_unions()
+        if union_id in floody_unions:
+            floody_unions.remove(union_id)
+            self.set_floody_unions(floody_unions)
+            self.district.remove_floody_upazila(self.id)
+
     def get_floody_unions(self):
         try:
             return json.loads(self.floody_unions)
@@ -120,6 +140,13 @@ class Union(models.Model):
             self.set_floody_wards(floody_wards)
             self.upazila.add_floody_union(self.id)
 
+    def remove_floody_ward(self, ward_id):
+        floody_wards = self.get_floody_wards()
+        if ward_id in floody_wards:
+            floody_wards.remove(ward_id)
+            self.set_floody_wards(floody_wards)
+            self.upazila.remove_floody_union(self.id)
+
     def get_floody_wards(self):
         try:
             return json.loads(self.floody_wards)
@@ -143,10 +170,10 @@ class Ward(models.Model):
             self.union.add_floody_ward(self.id)
     
 
-    # def propagate_flood_status(self):
-    #     """Propagate the flood status to all related parent entities."""
-    #     if self.is_flood == False:
-    #         pass
+    def propagate_flood_remove_status(self):
+        """Propagate the flood remove status to all related parent entities."""
+        if self.is_flood == False:
+            self.union.remove_floody_ward(self.id)
 
 class Housh(models.Model):
     holding_number = models.CharField(max_length=20, blank=True, null=True)

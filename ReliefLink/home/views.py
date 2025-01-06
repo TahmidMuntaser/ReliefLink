@@ -140,6 +140,6 @@ def update_flood_status(request):
 
         if is_flood:
             ward.propagate_flood_status()
-        # else:
-        #     ward.propagate_flood_remove_status()
+        else:
+            ward.propagate_flood_remove_status()
         return redirect('dashboard')
