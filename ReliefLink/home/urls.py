@@ -25,4 +25,6 @@ urlpatterns = [
 
     path('public_dashboard/', views.public_dashboard, name='public_dashboard'),
 
+    path('update_flood_status/', views.update_flood_status, name = 'update_flood_status'),
+
 ]

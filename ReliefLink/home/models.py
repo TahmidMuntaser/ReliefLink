@@ -1,4 +1,5 @@
 # home/models.py
+import json
 from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
@@ -30,36 +31,131 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
+
 class Division(models.Model):
     name = models.CharField(max_length=100)
-    is_flood = models.BooleanField(default=False)
+    floody_districts = models.TextField(default='[]')
 
     def __str__(self):
         return self.name
+
+    def add_floody_district(self, district_id):
+        floody_districts = self.get_floody_districts()
+        if district_id not in floody_districts:
+            floody_districts.append(district_id)
+            self.set_floody_districts(floody_districts)
+
+    def remove_floody_district(self, district_id):
+        floody_districts = self.get_floody_districts()
+        if district_id in floody_districts:
+            floody_districts.remove(district_id)
+            self.set_floody_districts(floody_districts)
+
+    def get_floody_districts(self):
+        try:
+            return json.loads(self.floody_districts)
+        except json.JSONDecodeError:
+            return []
+
+    def set_floody_districts(self, district_ids):
+        self.floody_districts = json.dumps(district_ids)
+        self.save()
 
 class District(models.Model):
     name = models.CharField(max_length=100)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
-    is_flood = models.BooleanField(default=False)
+    floody_upazilas = models.TextField(default='[]')
 
     def __str__(self):
         return self.name
+
+    def add_floody_upazila(self, upazila_id):
+        floody_upazilas = self.get_floody_upazilas()
+        if upazila_id not in floody_upazilas:
+            floody_upazilas.append(upazila_id)
+            self.set_floody_upazilas(floody_upazilas)
+            self.division.add_floody_district(self.id)
+
+    def remove_floody_upazila(self, upazila_id):
+        floody_upazilas = self.get_floody_upazilas()
+        if upazila_id in floody_upazilas:
+            floody_upazilas.remove(upazila_id)
+            self.set_floody_upazilas(floody_upazilas)
+            self.division.remove_floody_district(self.id)
+
+    def get_floody_upazilas(self):
+        try:
+            return json.loads(self.floody_upazilas)
+        except json.JSONDecodeError:
+            return []
+
+    def set_floody_upazilas(self, upazila_ids):
+        self.floody_upazilas = json.dumps(upazila_ids)
+        self.save()
 
 class Upazila(models.Model):
     name = models.CharField(max_length=100)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
-    is_flood = models.BooleanField(default=False)
+    floody_unions = models.TextField(default='[]')
 
     def __str__(self):
         return self.name
+
+    def add_floody_union(self, union_id):
+        floody_unions = self.get_floody_unions()
+        if union_id not in floody_unions:
+            floody_unions.append(union_id)
+            self.set_floody_unions(floody_unions)
+            self.district.add_floody_upazila(self.id)
+
+    def remove_floody_union(self, union_id):
+        floody_unions = self.get_floody_unions()
+        if union_id in floody_unions:
+            floody_unions.remove(union_id)
+            self.set_floody_unions(floody_unions)
+            self.district.remove_floody_upazila(self.id)
+
+    def get_floody_unions(self):
+        try:
+            return json.loads(self.floody_unions)
+        except json.JSONDecodeError:
+            return []
+
+    def set_floody_unions(self, union_ids):
+        self.floody_unions = json.dumps(union_ids)
+        self.save()
 
 class Union(models.Model):
     name = models.CharField(max_length=100)
     upazila = models.ForeignKey(Upazila, on_delete=models.CASCADE)
-    is_flood = models.BooleanField(default=False)
+    floody_wards = models.TextField(default='[]')
 
     def __str__(self):
         return self.name
+
+    def add_floody_ward(self, ward_id):
+        floody_wards = self.get_floody_wards()
+        if ward_id not in floody_wards:
+            floody_wards.append(ward_id)
+            self.set_floody_wards(floody_wards)
+            self.upazila.add_floody_union(self.id)
+
+    def remove_floody_ward(self, ward_id):
+        floody_wards = self.get_floody_wards()
+        if ward_id in floody_wards:
+            floody_wards.remove(ward_id)
+            self.set_floody_wards(floody_wards)
+            self.upazila.remove_floody_union(self.id)
+
+    def get_floody_wards(self):
+        try:
+            return json.loads(self.floody_wards)
+        except json.JSONDecodeError:
+            return []
+
+    def set_floody_wards(self, ward_ids):
+        self.floody_wards = json.dumps(ward_ids)
+        self.save()
 
 class Ward(models.Model):
     name = models.CharField(max_length=100)
@@ -68,6 +164,16 @@ class Ward(models.Model):
 
     def __str__(self):
         return self.name
+
+    def propagate_flood_status(self):
+        if self.is_flood:
+            self.union.add_floody_ward(self.id)
+    
+
+    def propagate_flood_remove_status(self):
+        """Propagate the flood remove status to all related parent entities."""
+        if self.is_flood == False:
+            self.union.remove_floody_ward(self.id)
 
 class Housh(models.Model):
     holding_number = models.CharField(max_length=20, blank=True, null=True)

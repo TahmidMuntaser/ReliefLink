@@ -6,6 +6,15 @@
 <!-- Button to Create a New House -->
 <div style="margin-bottom: 20px;">
     <a href="{% url 'add_house' %}" class="btn btn-success">Create New House</a>
+    {% comment %} implement flood status {% endcomment %}
+    <form method="post" action="{% url 'update_flood_status' %}" style="display: inline;">
+        {% csrf_token %}
+        <label>
+            <input type="checkbox" name="is_flood" {% if ward.is_flood %}checked{% endif %}> Is Flood?
+
+        </label>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
 </div>
 
 <!-- Table to Display Deputy Commissioners -->
