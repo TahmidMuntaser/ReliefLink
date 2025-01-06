@@ -137,4 +137,9 @@ def update_flood_status(request):
         is_flood = 'is_flood' in request.POST
         ward.is_flood = is_flood
         ward.save()
+
+        if is_flood:
+            ward.propagate_flood_status()
+        # else:
+        #     ward.propagate_flood_remove_status()
         return redirect('dashboard')
