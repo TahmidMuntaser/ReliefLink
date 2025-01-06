@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import Housh
+from .models import *
 from django.contrib.auth import get_user_model
 from .forms import *
 
@@ -109,9 +109,10 @@ def unionchairman_dashboard(request):
 
 @login_required
 def wardmember_dashboard(request):
-    houses = Housh.objects.filter(ward = request.user.ward)
+    houses = Housh.objects.filter(ward=request.user.ward)
+    ward = request.user.ward
+    return render(request, 'home/wardmember_dashboard.html', {'houses': houses, 'ward': ward})
 
-    return render(request, 'home/wardmember_dashboard.html', {'houses': houses})
 
 @login_required
 def public_dashboard(request):
@@ -127,3 +128,13 @@ def get_house_details(house_id):
         "ward": house.ward.name,
         "division": house.ward.union.upazila.district.division.name,
     }
+
+
+@login_required
+def update_flood_status(request):
+    if request.method == 'POST':
+        ward = request.user.ward
+        is_flood = 'is_flood' in request.POST
+        ward.is_flood = is_flood
+        ward.save()
+        return redirect('dashboard')
