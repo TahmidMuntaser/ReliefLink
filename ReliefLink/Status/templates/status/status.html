@@ -1,0 +1,36 @@
+{% extends 'global/base.html' %}
+{% load static %}
+
+{% block title %}Status{% endblock %}
+
+{% block content %}
+<div class="status-section">
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Status of Flood in Division</caption>
+        <thead>
+            <tr style="background-color: #f4f4f4;">
+                <th style="padding: 8px;">Division</th>
+                <th style="padding: 8px;">Still Demand</th>
+                <th style="padding: 8px;">Supply</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for division in floody_divisions %}
+                <tr>
+                    <td style="padding: 8px;">
+                        <a href="{% url 'district_status' division.id %}" style="text-decoration: none; color: inherit;">
+                            {{ division.name }}
+                        </a>
+                    </td>
+                    <td style="padding: 8px;">0</td>
+                    <td style="padding: 8px;">0</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align: center; padding: 8px;">No floody divisions found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
