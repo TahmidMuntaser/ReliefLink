@@ -1,5 +1,3 @@
-# account/views.py
-
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from .forms import *
@@ -32,17 +30,24 @@ def logout_view(request):
     logout(request)
     return render(request, 'account/logged_out.html')
 
+
+
 def register_view(request):
+    registration_status = None
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            registration_status = 'success'
+        else:
+            registration_status = 'fail'
     else:
         form = UserCreationForm()
-    return render(request, 'account/register.html', {'form': form})
-
-
+    return render(request, 'account/register.html', {
+        'form': form,
+        'registration_status': registration_status
+    })
+    
 @login_required
 def updatepassword_view(request):
     if request.method == 'POST':

@@ -127,3 +127,26 @@ body {
 .form-wrapper .errorlist {
     display: none;
 }
+
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    color: #fff;
+    z-index: 1000;
+    opacity: 0.9;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .notification.success {
+    background-color: #4CAF50; 
+  }
+  .notification.error {
+    background-color: #f44336;
+  }
+  .fade-out {
+    opacity: 0;
+    transform: translateY(20px);
+  }
