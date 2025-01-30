@@ -32,6 +32,7 @@ def logout_view(request):
 
 
 
+
 def register_view(request):
     registration_status = None
     if request.method == 'POST':
@@ -47,6 +48,7 @@ def register_view(request):
         'form': form,
         'registration_status': registration_status
     })
+
     
 @login_required
 def updatepassword_view(request):

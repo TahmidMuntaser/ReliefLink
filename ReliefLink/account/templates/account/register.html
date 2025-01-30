@@ -1,4 +1,3 @@
-<!-- filepath: /c:/SWDP/ReliefLink/ReliefLink/account/templates/account/register.html -->
 {% extends 'global/base.html' %}
 {% load static %}
 {% block title %}Registration{% endblock %}
@@ -27,7 +26,7 @@
 
 {% if registration_status == 'success' %}
 <div class="notification success">
-  Registration successful!
+  Registration successful! You can now log in.
 </div>
 {% elif registration_status == 'fail' %}
 <div class="notification error">
