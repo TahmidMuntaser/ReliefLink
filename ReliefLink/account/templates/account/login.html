@@ -5,15 +5,19 @@
 <link rel="stylesheet" href="{% static 'account/style.css' %}">
 {% endblock %}
 {% block content %}
-<div class="login-container">
-    <div class="login-form">
-        <h2>Login</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn btn-primary" type="submit">Login</button>
-        </form>
-        <p>Don't have an account? <a href="{% url 'register' %}">Register Here</a></p>
+<div class="container-log">
+    <div class="form-section">
+        <div class="form-wrapper">
+            <h1>Relief<span class="highlight">LINK</span></h1>
+            {% comment %} <h2>Login</h2> {% endcomment %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary" type="submit">Login</button>
+            </form>
+            <p class="register-link">Don't have an account? <a class="reg-here" href="{% url 'register' %}">Register Here</a></p>
+        </div>
     </div>
+    <div class="image-section"></div>
 </div>
 {% endblock %}
