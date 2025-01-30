@@ -1,122 +1,119 @@
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f7fa; 
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
 }
 
-.login-container {
+
+.container-log {
+    display: flex;
+    width: 100%;
+    height: 620px;
+    padding: 0; 
+    margin: 0; 
+}
+
+.form-section {
+    flex: 1; 
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    background-color: #ffffff;
     padding: 20px;
     box-sizing: border-box;
 }
 
-
-.login-form {
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-    width: 400px;
-    box-sizing: border-box;
+.form-wrapper {
+    width: 100%;
+    max-width: 400px;
 }
 
-.login-form h2 {
-    font-size: 26px;
-    font-weight: 600;
+.form-wrapper h1 {
+    text-align: center;
+    margin-bottom: 40px;
+
     color: #333;
-    margin-bottom: 30px;
+}
+
+.form-wrapper h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #333;
     text-align: center;
 }
 
-.login-form p {
-    font-size: 16px;
-    color: #6c757d;
-    /* text-align: center; */
-    margin-top: 10px;
-}
-
-.login-form a {
-    text-decoration: none;
-    color: #27b147;
-    font-weight: 500;
-    transition: color 0.3s ease;
-    margin: 8px;
-}
-
-
-.login-form a:hover {
-    color: rgb(109, 108, 108);
-}
-
-
-.form-control {
+.form-wrapper input, .form-wrapper select, .form-wrapper textarea {
     width: 100%;
-    padding: 14px;
-    /* margin-bottom: 20px; */
-    margin-top: 7px;
+    padding: 10px;
+    margin: 10px 0;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    font-size: 16px;
-    background-color: #f9f9f9;
-    color: #333;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
-    box-sizing: border-box; 
-}
-
-.form-control:focus {
-    border-color: #aaa;
-    background-color: #ffffff;
-    outline: none;
-}
-
-.form-control::placeholder {
-    color: #aaa;
-}
-
-.btn {
-    width: 100%;
-    padding: 14px;
-    font-size: 16px;
-    font-weight: 600;
-    color: #fff;
-    background-color: #27b147;
-    border: none;
-    border-radius: 6px;
-    margin-top: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    border-radius: 5px;
     box-sizing: border-box;
 }
 
-.btn:hover {
-    background-color: #25943f;
-    transform: translateY(-2px);
+.form-wrapper a {
+    color: #ff6600;
+    text-decoration: none;
+    display: block;
+    margin: 10px 0;
+    text-align: right;
 }
 
-.btn:active {
-    background-color: #29813e;
-    transform: translateY(1px);
+.form-wrapper button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ff6600;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-.login-form p {
+.form-wrapper .signup {
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+
+.image-section {
+    flex: 0 0 55%;
+    background-image: url('/static/account/image/Relief11.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+   
+}
+
+.register-link {
+    font-size: 14px;
+    color: #333;
     margin-top: 20px;
 }
 
 
-@media (max-width: 480px) {
-    .login-form {
-        padding: 20px;
+.register-link p,
+.register-link a,
+.register-link .reg-here {
+    display: inline;
+    color: #ff6600;
+    text-decoration: none;
+    /* font-weight: bold; */
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+@media screen and (max-width: 768px) {
+    .container {
+        flex-direction: column;
     }
 
-    .login-form h2 {
-        font-size: 22px;
-    }
-
-    .btn {
-        font-size: 14px;
+    .image-section {
+        display: none;
     }
 }
