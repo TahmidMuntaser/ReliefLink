@@ -16,10 +16,18 @@ class BaseUserForm(forms.Form):
 
 class UserCreationForm(UserCreationForm, BaseUserForm):
     name = forms.CharField(max_length=100, required=True)
+    
+    
 
     class Meta:
         model = User
         fields = ("name", "email", "password1", "password2")
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = ''
+        self.fields['password2'].help_text = ''
+
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -29,6 +37,7 @@ class UserCreationForm(UserCreationForm, BaseUserForm):
         if commit:
             user.save()
         return user
+    
     
     
    

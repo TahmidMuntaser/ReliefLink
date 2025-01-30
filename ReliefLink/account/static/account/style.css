@@ -117,3 +117,13 @@ body {
         display: none;
     }
 }
+
+
+.password-policy {
+    display: none;
+}
+
+
+.form-wrapper .errorlist {
+    display: none;
+}
