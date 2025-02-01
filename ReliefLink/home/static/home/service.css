@@ -156,17 +156,10 @@ section {
     font-size: 2rem;
 }
 .user-roles {
-    width: 90%;
+    width: 94%;
     margin: 40px auto;
-    background: linear-gradient(135deg, #f0f3f5, #c7d0d8);
+    background: linear-gradient(135deg, #f0f3f5, #ebedf0);
     padding: 40px;
-    border-radius: 16px;
-    box-shadow: 20px 8px 20px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-}
-
-.user-roles:hover {
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
 .roles-container {
@@ -204,4 +197,57 @@ section {
 .role-card p {
     color: #555;
     line-height: 1.4;
+}
+
+
+/*security */
+
+.security-section {
+    width: 90%;
+    max-width: 750px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #111;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255, 251, 0, 0.3);
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
+    position: relative;
+}
+
+
+.security-section:hover {
+    border-color: #ff9800;
+    box-shadow: 0 0 15px rgba(255, 251, 0, 0.6);
+}
+
+.security-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+
+.security-description {
+    font-size: 18px;
+    color: #ddd;
+    line-height: 1.6;
+    font-weight: 400;
+    padding: 0 10px;
+}
+
+
+.security-icon {
+    font-size: 55px;
+    color: #ff9800;;
+    margin-top: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.security-section:hover .security-icon {
+    transform: scale(1.2) rotate(10deg);
+    color: #e79b28;;
 }
