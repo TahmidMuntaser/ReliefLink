@@ -3,36 +3,37 @@
 
 {% block title %}Union Status - {{ upazila.name }}{% endblock %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'status/status.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="status-section">
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
-            Status of Flood in {{ upazila.name }} Upazila
-        </caption>
-        <thead>
-            <tr style="background-color: #f4f4f4;">
-                <th style="padding: 8px;">Union</th>
-                <th style="padding: 8px;">Still Demand</th>
-                <th style="padding: 8px;">Supply</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for union in unions %}
-                <tr>
-                    <td style="padding: 8px;">
-                        <a href="{% url 'ward_status' union.id %}" style="text-decoration: none; color: inherit;">
+    <h2 class="status-title">Status of Flood in {{ upazila.name }} Upazila</h2>
+    <div class="status-grid">
+        {% for union in unions %}
+            <div class="status-card">
+                <div class="card-header">
+                    <h3 class="status-card-title">
+                        <a href="{% url 'ward_status' union.id %}" class="status-card-link">
                             {{ union.name }}
                         </a>
-                    </td>
-                    <td style="padding: 8px;">{{ union.relief_demand }}</td>
-                    <td style="padding: 8px;">{{ union.relief_supply }}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="3" style="text-align: center; padding: 8px;">No union found for this upazila.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p class="status-card-detail">
+                        <span class="label">Still Demand:</span> {{ union.relief_demand }}
+                    </p>
+                    <p class="status-card-detail">
+                        <span class="label">Supply:</span> {{ union.relief_supply }}
+                    </p>
+                </div>
+            </div>
+        {% empty %}
+            <div class="status-card">
+                <p class="status-card-detail">No union found for this upazila.</p>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 {% endblock %}
