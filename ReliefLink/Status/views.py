@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from home.models import Division, District, Upazila, Union, Ward, Housh
 import json
 
+def status_view(request):
+    return render(request, 'status/status.html')
+
 def status(request):
     floody_divisions = Division.objects.exclude(floody_districts='[]')
     return render(request, 'status/status.html', {'floody_divisions': floody_divisions})
