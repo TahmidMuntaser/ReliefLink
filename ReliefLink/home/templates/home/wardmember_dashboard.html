@@ -6,6 +6,7 @@
 <!-- Button to Create a New House -->
 <div style="margin-bottom: 20px;">
     <a href="{% url 'add_house' %}" class="btn btn-success">Create New House</a>
+
     {% comment %} implement flood status {% endcomment %}
     <form method="post" action="{% url 'update_flood_status' %}" style="display: inline;">
         {% csrf_token %}
@@ -28,6 +29,10 @@
             
             <th style="padding: 8px;">Born</th>
             <th style="padding: 8px;">Death</th>
+            {% if ward.is_flood %}
+                <th style="padding: 8px;">Relief Demand</th>
+                <th style="padding: 8px;">Relief Supply</th>
+            {% endif %}
         </tr>
     </thead>
     <tbody>
@@ -48,6 +53,13 @@
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
+                {% if ward.is_flood %}
+                    <td style="padding: 8px;">{{ house.relief_demand }}</td>
+
+                    <td style="padding: 8px;">{{ house.relief_supply }}</td>
+                {% endif %}
+                
+                
             </tr>
         {% empty %}
             <tr>
