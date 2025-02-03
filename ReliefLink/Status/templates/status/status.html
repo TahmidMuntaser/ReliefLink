@@ -22,8 +22,8 @@
                             {{ division.name }}
                         </a>
                     </td>
-                    <td style="padding: 8px;">0</td>
-                    <td style="padding: 8px;">0</td>
+                    <td style="padding: 8px;">{{ division.relief_demand }}</td>
+                    <td style="padding: 8px;">{{ division.relief_supply }}</td>
                 </tr>
             {% empty %}
                 <tr>

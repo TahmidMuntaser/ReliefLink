@@ -19,9 +19,13 @@
         <tbody>
             {% for ward in wards %}
                 <tr>
-                    <td style="padding: 8px;">{{ward.name}}</td>
-                    <td style="padding: 8px;">0</td>
-                    <td style="padding: 8px;">0</td>
+                    <td style="padding: 8px;">
+                        <a href="{% url 'house_status' ward.id %}" style="text-decoration: none; color: inherit;">
+                            {{ ward.name }}
+                        </a>
+                    </td>
+                    <td style="padding: 8px;">{{ ward.relief_demand }}</td>
+                    <td style="padding: 8px;">{{ ward.relief_supply }}</td>
                 </tr>
             {% empty %}
                 <tr>
