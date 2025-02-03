@@ -9,15 +9,109 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="extra"></div>
 <section class="introduction">
-    <h1>Our Mission</h1>
-    <p>Empowering communities through coordinated relief efforts to ensure swift and effective aid distribution.</p>
-    <div class="impact-metrics">
-        <h2>Impact Metrics</h2>
-        <p>Assisted over <strong>10,000 families</strong> in crisis.</p>
-        <i class="fas fa-heartbeat"></i>
+    <div class="overlay"></div>
+    <div class="content">
+        <h1 class="hero-head">Our Mission</h1>
+        <p class="hero-para">Empowering communities through coordinated relief efforts to ensure swift and effective aid distribution.</p>
+        <div class="impact-metrics">
+            <h2 class="hero-head">Impact Metrics</h2>
+            <p class="hero-para">Assisted over <strong>10,000 families</strong> in crisis.</p>
+            <i class="fas fa-heartbeat"></i>
+        </div>
+    </div>
+    
+</section>
+<div class="extra"></div>
+
+
+<!-- User Roles and Accessibility -->
+<section class="user-roles">
+    <h2 class="user-header">User Roles Overview</h2>
+    <div class="roles-container">
+        <div class="role-card">
+            <i class="fas fa-user-shield"></i>
+            <h3>Super User</h3>
+            <p>Manages all aspects of the website with full administrative access.</p>
+        </div>
+        <div class="role-card">
+            <i class="fas fa-map-marker-alt"></i>
+            <h3>District Commissioner (DC)</h3>
+            <p>Oversees district-level data and coordinates district-wide relief efforts.</p>
+        </div>
+        <div class="role-card">
+            <i class="fas fa-building"></i>
+            <h3>Upazila Chairman</h3>
+            <p>Manages data and operations within their upazila.</p>
+        </div>
+        <div class="role-card">
+            <i class="fas fa-users"></i>
+            <h3>Union Chairman</h3>
+            <p>Handles union-specific data management and coordination.</p>
+        </div>
+        <div class="role-card">
+            <i class="fas fa-user-plus"></i>
+            <h3>Ward Member</h3>
+            <p>Focuses on ward-level relief activities and data input.</p>
+        </div>
+        <div class="role-card">
+            <i class="fas fa-handshake"></i>
+            <h3>Volunteer</h3>
+            <p>Reports on relief distribution and needs within their assigned area.</p>
+        </div>
+        <div class="role-card">
+            <i class="fas fa-user"></i>
+            <h3>Root Level User</h3>
+            <p>Accesses basic information and updates without edit permissions.</p>
+        </div>
     </div>
 </section>
+
+
+{% comment %} workflow {% endcomment %}
+<section class="workflow-section">
+    <h2 class="workflow-title">Volunteer Workflow</h2>
+    <div class="workflow-container">
+        <div class="workflow-step" id="step1">
+            <i class="fas fa-user-plus workflow-icon"></i>
+            <h3 class="workflow-heading">Volunteer Registration</h3>
+            <p class="workflow-text">Sign up to become a volunteer and start making a difference.</p>
+        </div>
+        <div class="workflow-arrow"><i class="fas fa-chevron-right"></i></div>
+        <div class="workflow-step" id="step2">
+            <i class="fas fa-database workflow-icon"></i>
+            <h3 class="workflow-heading">Data Entry Submission</h3>
+            <p class="workflow-text">Submit reports on relief distribution and needs.</p>
+        </div>
+        <div class="workflow-arrow"><i class="fas fa-chevron-right"></i></div>
+        <div class="workflow-step" id="step3">
+            <i class="fas fa-user-check workflow-icon"></i>
+            <h3 class="workflow-heading">Supervisor Verification</h3>
+            <p class="workflow-text">Supervisors verify submitted data for accuracy.</p>
+        </div>
+        <div class="workflow-arrow"><i class="fas fa-chevron-right"></i></div>
+        <div class="workflow-step" id="step4">
+            <i class="fas fa-chart-bar workflow-icon"></i>
+            <h3 class="workflow-heading">Website Updates & Reports</h3>
+            <p class="workflow-text">Data is updated on the platform and reports are generated.</p>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Security -->
+<section class="security-section">
+    <h2 class="security-title">Security & Data Integrity</h2>
+    <p class="security-description">
+        We implement robust authentication protocols and rigorous data validation 
+        processes to protect your information and ensure reliability.
+    </p>
+    <i class="fas fa-shield-alt security-icon"></i>
+</section>
+
+
+
 
 {% endblock %}

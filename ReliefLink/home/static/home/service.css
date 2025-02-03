@@ -1,36 +1,253 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Poppins', sans-serif;
     line-height: 1.6;
-    color: #333;
+    color: #fff;
+    /* background: linear-gradient(135deg, #ff9800, #ff5722); */
+    margin: 0;
+    padding: 0;
 }
 
 section {
-    padding: 60px 20px;
-    margin: 20px 0;
+    padding: 80px 20px;
+    /* margin: 20px 0; */
+    text-align: center;
 }
 
-h2, h1{
-    color: #ff9800;
-    margin-bottom: 20px;
-    font-size: 35px;
+.extra{
+    background-color: #ff9800;
+    height: 25px;
 }
 
-p {
-    margin-bottom: 15px;
+.hero-head {
+    color: #fff;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+    font-size: 45px;
+    color: #ff9800 ;
+}
+
+.hero-para {
     font-size: 20px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto 20px;
 }
 
 .introduction {
-    background-color: #f9f9f9;
+    background-image: url('/static/home/images/Relief4.jpg');
+    background-size: cover; 
+    background-position: center; 
+    
+    position: relative;
+    padding: 100px 20px;
+}
+
+.introduction .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.introduction .content {
+    position: relative;
+    z-index: 2;
+}
+
+.impact-metrics {
+    margin-top: 30px;
+}
+
+.impact-metrics i {
+    font-size: 3em;
+    color: #ff9800;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+
+/* workflow  */
+.workflow-section {
     text-align: center;
+    padding: 50px 20px;
+    background: #f9f9f9;
+}
+
+
+.workflow-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 30px;
+}
+
+.workflow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap; 
+}
+
+.workflow-step {
+    background: white;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.workflow-step:hover {
+    transform: translateY(-5px);
+    /* background-color: #f5f23c; */
+}
+
+
+.workflow-icon {
+    font-size: 2rem;
+    color:  #ffc400;
+    margin-bottom: 10px;
+}
+
+
+.workflow-heading {
+    font-size: 1.2rem;
+    color: #222;
+}
+
+
+.workflow-text {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+
+.workflow-arrow i {
+    font-size: 1.8rem;
+    color: #ff9800;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.workflow-arrow:hover i {
+    transform: translateX(5px);
+    color: #ff9800;
+}
+
+/* role  */
+
+.user-header{
+    /* margin: 20px; */
+    padding-bottom: 35px;
+    color: #333;
+    font-size: 2rem;
+}
+.user-roles {
+    width: 94%;
+    margin: 40px auto;
+    background: linear-gradient(135deg, #f0f3f5, #ebedf0);
+    padding: 40px;
+}
+
+.roles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.role-card {
+    width: 280px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.role-card:hover {
+    transform: translateY(-4px);
+}
+
+.role-card i {
+    font-size: 30px;
+    color: #ff9800;
+    margin-bottom: 10px;
+}
+
+.role-card h3 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.role-card p {
+    color: #555;
+    line-height: 1.4;
+}
+
+
+/*security */
+
+.security-section {
+    width: 90%;
+    max-width: 750px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #111;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255, 251, 0, 0.3);
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.3s ease-in-out;
     position: relative;
 }
 
-.introduction .impact-metrics i {
-    font-size: 2em;
-    margin-top: 10px;
-    color: #28a745;
+
+.security-section:hover {
+    border-color: #ff9800;
+    box-shadow: 0 0 15px rgba(255, 251, 0, 0.6);
+}
+
+.security-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
 }
 
 
+.security-description {
+    font-size: 18px;
+    color: #ddd;
+    line-height: 1.6;
+    font-weight: 400;
+    padding: 0 10px;
+}
 
+
+.security-icon {
+    font-size: 55px;
+    color: #ff9800;;
+    margin-top: 20px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.security-section:hover .security-icon {
+    transform: scale(1.2) rotate(10deg);
+    color: #e79b28;;
+}
