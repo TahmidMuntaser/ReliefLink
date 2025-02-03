@@ -9,6 +9,7 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import Permission
+from django.db.models import Sum
 import random
 import string
 import logging
@@ -35,6 +36,8 @@ class CustomUserManager(BaseUserManager):
 class Division(models.Model):
     name = models.CharField(max_length=100)
     floody_districts = models.TextField(default='[]')
+    relief_demand = models.IntegerField(default=0)
+    relief_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -44,12 +47,22 @@ class Division(models.Model):
         if district_id not in floody_districts:
             floody_districts.append(district_id)
             self.set_floody_districts(floody_districts)
+            self.update_relief_demand()
+
 
     def remove_floody_district(self, district_id):
         floody_districts = self.get_floody_districts()
         if district_id in floody_districts:
             floody_districts.remove(district_id)
             self.set_floody_districts(floody_districts)
+            self.update_relief_demand()
+        
+
+    def update_relief_demand(self):
+        """Recalculates relief demand based on current floody wards."""
+        floody_districts = self.get_floody_districts()
+        self.relief_demand = District.objects.filter(id__in=floody_districts).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+        self.save()
 
     def get_floody_districts(self):
         try:
@@ -65,6 +78,8 @@ class District(models.Model):
     name = models.CharField(max_length=100)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
     floody_upazilas = models.TextField(default='[]')
+    relief_demand = models.IntegerField(default=0)
+    relief_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -74,14 +89,24 @@ class District(models.Model):
         if upazila_id not in floody_upazilas:
             floody_upazilas.append(upazila_id)
             self.set_floody_upazilas(floody_upazilas)
+            self.update_relief_demand()
             self.division.add_floody_district(self.id)
+
 
     def remove_floody_upazila(self, upazila_id):
         floody_upazilas = self.get_floody_upazilas()
         if upazila_id in floody_upazilas:
             floody_upazilas.remove(upazila_id)
             self.set_floody_upazilas(floody_upazilas)
+            self.update_relief_demand()
             self.division.remove_floody_district(self.id)
+
+    
+    def update_relief_demand(self):
+        """Recalculates relief demand based on current floody wards."""
+        floody_upazilas = self.get_floody_upazilas()
+        self.relief_demand = Upazila.objects.filter(id__in=floody_upazilas).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+        self.save()
 
     def get_floody_upazilas(self):
         try:
@@ -97,23 +122,38 @@ class Upazila(models.Model):
     name = models.CharField(max_length=100)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
     floody_unions = models.TextField(default='[]')
+    relief_demand = models.IntegerField(default=0)
+    relief_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
 
     def add_floody_union(self, union_id):
         floody_unions = self.get_floody_unions()
+        
         if union_id not in floody_unions:
             floody_unions.append(union_id)
             self.set_floody_unions(floody_unions)
+            self.update_relief_demand()
             self.district.add_floody_upazila(self.id)
 
+        
     def remove_floody_union(self, union_id):
         floody_unions = self.get_floody_unions()
         if union_id in floody_unions:
             floody_unions.remove(union_id)
             self.set_floody_unions(floody_unions)
+            self.update_relief_demand()
             self.district.remove_floody_upazila(self.id)
+        
+
+    def update_relief_demand(self):
+        floody_unions = self.get_floody_unions()
+
+        self.relief_demand = Union.objects.filter(id__in=floody_unions).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+        
+        self.save()
+        
 
     def get_floody_unions(self):
         try:
@@ -129,6 +169,8 @@ class Union(models.Model):
     name = models.CharField(max_length=100)
     upazila = models.ForeignKey(Upazila, on_delete=models.CASCADE)
     floody_wards = models.TextField(default='[]')
+    relief_demand = models.IntegerField(default=0)
+    relief_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -138,14 +180,25 @@ class Union(models.Model):
         if ward_id not in floody_wards:
             floody_wards.append(ward_id)
             self.set_floody_wards(floody_wards)
+            self.update_relief_demand()
             self.upazila.add_floody_union(self.id)
+        
+
 
     def remove_floody_ward(self, ward_id):
         floody_wards = self.get_floody_wards()
         if ward_id in floody_wards:
             floody_wards.remove(ward_id)
             self.set_floody_wards(floody_wards)
+            self.update_relief_demand()
             self.upazila.remove_floody_union(self.id)
+        
+
+    def update_relief_demand(self):
+        """Recalculates relief demand based on current floody wards."""
+        floody_wards = self.get_floody_wards()
+        self.relief_demand = Ward.objects.filter(id__in=floody_wards).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+        self.save()
 
     def get_floody_wards(self):
         try:
@@ -161,26 +214,42 @@ class Ward(models.Model):
     name = models.CharField(max_length=100)
     union = models.ForeignKey(Union, on_delete=models.CASCADE)
     is_flood = models.BooleanField(default=False)
+    relief_demand = models.IntegerField(default=0)
+    relief_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
 
     def propagate_flood_status(self):
         if self.is_flood:
+            self.relief_demand = Housh.objects.filter(ward=self).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+            self.save()
             self.union.add_floody_ward(self.id)
-    
+
 
     def propagate_flood_remove_status(self):
         """Propagate the flood remove status to all related parent entities."""
-        if self.is_flood == False:
+        if not self.is_flood:
             self.union.remove_floody_ward(self.id)
 
 class Housh(models.Model):
     holding_number = models.CharField(max_length=20, blank=True, null=True)
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE)
     family_member = models.IntegerField()
+    relief_demand = models.IntegerField()
+    relief_supply = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
+        # Ensure relief_demand is initialized properly
+        if self.relief_demand is None:
+            self.relief_demand = self.family_member
+        self.relief_demand = self.family_member
+
+        # Deduct relief_supply if not None
+        if self.relief_supply is not None:
+            self.relief_demand -= self.relief_supply
+
+        # Generate holding_number if it doesn't exist
         if not self.holding_number:
             try:
                 division_code = self.ward.union.upazila.district.division.name[:2].lower()
@@ -188,11 +257,14 @@ class Housh(models.Model):
                 upazila_code = self.ward.union.upazila.name[:2].lower()
                 union_code = self.ward.union.name[:2].lower()
                 ward_code = self.ward.name[:2].lower()
-                house_count = Housh.objects.filter(ward=self.ward).count() + 1
+
+                # Ensure correct counting
+                house_count = Housh.objects.filter(ward=self.ward).exclude(pk=self.pk).count() + 1
                 self.holding_number = f"{division_code}{district_code}{upazila_code}{union_code}{ward_code}{house_count}"
             except AttributeError as e:
-                logger.error(f"Holding number generation failed for house in ward {self.ward.id}: {e}")
+                logger.error(f"Holding number generation failed: {e}")
                 raise ValueError("Invalid data for holding number generation.")
+
         super().save(*args, **kwargs)
 
 
