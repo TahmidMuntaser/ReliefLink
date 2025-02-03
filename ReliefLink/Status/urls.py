@@ -12,4 +12,6 @@ urlpatterns = [
     path('Union Status/<int:upazila_id>/', views.union_status, name="union_status"),
 
     path('Ward Status/<int:union_id>/', views.ward_status, name="ward_status"),
+
+    path('House Status/<int:ward_id>/', views.house_status, name="house_status"),
 ]

@@ -1,6 +1,6 @@
 # Status/views.py
 from django.shortcuts import render, get_object_or_404
-from home.models import Division, District, Upazila, Union, Ward
+from home.models import Division, District, Upazila, Union, Ward, Housh
 import json
 
 def status(request):
@@ -84,4 +84,15 @@ def ward_status(request, union_id):
     return render(request, 'status/ward_status.html', {
         'union' : union,
         'wards': filtered_wards,
+    })
+
+
+def house_status(request, ward_id):
+    ward = get_object_or_404(Ward, id=ward_id)
+    
+    houses = Housh.objects.filter(ward=ward)
+    
+    return render(request, 'status/house_status.html', {
+        'ward' : ward,
+        'houses': houses,
     })
