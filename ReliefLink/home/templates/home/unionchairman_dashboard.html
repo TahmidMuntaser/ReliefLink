@@ -16,15 +16,24 @@
             <th style="padding: 8px;">Name</th>
             <th style="padding: 8px;">Email</th>
             <th style="padding: 8px;">Ward</th>
+            {% if union.floody_wards %}
+                <th style="padding: 8px;">Relief Demand</th>
+                <th style="padding: 8px;">Relief Supply</th>
+            {% endif %}
             <th style="padding: 8px;">Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for user in data %}
+        {% for user in wardmembers %}
             <tr>
                 <td style="padding: 8px;">{{ user.name }}</td>
                 <td style="padding: 8px;">{{ user.email }}</td>
                 <td style="padding: 8px;">{{ user.ward }}</td>
+                {% if union.floody_wards %}
+                    <td style="padding: 8px;">{{ user.ward.relief_demand }}</td>
+                    <td style="padding: 8px;">{{ user.ward.relief_supply }}</td>
+
+                {% endif %}
                 <td style="padding: 8px; text-align: center;">
                     <form method="post" action="{% url 'delete_user' user.id %}">
                         {% csrf_token %}

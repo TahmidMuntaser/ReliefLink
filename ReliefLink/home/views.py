@@ -84,33 +84,38 @@ def admin_dashboard(request):
 
 @login_required
 def divisionalcommissioner_dashboard(request):
-    data = User.objects.filter(user_type='DeputyCommissioner', district__division = request.user.division)
+    division = request.user.division
+    deputycommissioners = User.objects.filter(user_type='DeputyCommissioner', district__division = division)
 
-    return render(request, 'home/divisionalcommissioner_dashboard.html', {'data':data})
+    return render(request, 'home/divisionalcommissioner_dashboard.html', {'deputycommissioners':deputycommissioners, 'division':division})
 
 @login_required
 def deputycommissioner_dashboard(request):
-    data = User.objects.filter(user_type='UNO', upazila__district = request.user.district)
+    district = request.user.district
+    unos = User.objects.filter(user_type='UNO', upazila__district = district)
 
-    return render(request, 'home/deputycommissioner_dashboard.html', {'data':data})
+    return render(request, 'home/deputycommissioner_dashboard.html', {'unos': unos, 'district': district})
 
 
 @login_required
 def uno_dashboard(request):
-    data = User.objects.filter(user_type='UnionChairman', union__upazila = request.user.upazila)
+    upazila = request.user.upazila
+    unionchairmans = User.objects.filter(user_type='UnionChairman', union__upazila = upazila)
 
-    return render(request, 'home/uno_dashboard.html', {'data':data})
+    return render(request, 'home/uno_dashboard.html', {'unionchairmans':unionchairmans, 'upazila': upazila})
 
 @login_required
 def unionchairman_dashboard(request):
-    data = User.objects.filter(user_type='WardMember', ward__union = request.user.union)
+    union = request.user.union
+    wardmembers = User.objects.filter(user_type='WardMember', ward__union = union)
 
-    return render(request, 'home/unionchairman_dashboard.html', {'data':data})
+    return render(request, 'home/unionchairman_dashboard.html', {'wardmembers':wardmembers, 'union': union})
 
 @login_required
 def wardmember_dashboard(request):
-    houses = Housh.objects.filter(ward=request.user.ward)
     ward = request.user.ward
+    houses = Housh.objects.filter(ward=ward)
+    
     return render(request, 'home/wardmember_dashboard.html', {'houses': houses, 'ward': ward})
 
 

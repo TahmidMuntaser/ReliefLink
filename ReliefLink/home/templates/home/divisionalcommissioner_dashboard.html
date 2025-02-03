@@ -16,15 +16,23 @@
             <th style="padding: 8px;">Name</th>
             <th style="padding: 8px;">Email</th>
             <th style="padding: 8px;">District</th>
+            {% if division.floody_districts %}
+                <th style="padding: 8px;">Relief Demand</th>
+                <th style="padding: 8px;">Relief Supply</th>
+            {% endif %}
             <th style="padding: 8px;">Actions</th>
         </tr>
     </thead>
     <tbody>
-        {% for user in data %}
+        {% for deputycommissioner in deputycommissioners %}
             <tr>
-                <td style="padding: 8px;">{{ user.name }}</td>
-                <td style="padding: 8px;">{{ user.email }}</td>
-                <td style="padding: 8px;">{{ user.district }}</td>
+                <td style="padding: 8px;">{{ deputycommissioner.name }}</td>
+                <td style="padding: 8px;">{{ deputycommissioner.email }}</td>
+                <td style="padding: 8px;">{{ deputycommissioner.district }}</td>
+                {% if division.floody_districts %}
+                    <td style="padding: 8px;">{{ deputycommissioner.district.relief_demand }}</td>
+                    <td style="padding: 8px;">{{ deputycommissioner.district.relief_supply }}</td>
+                {% endif %}
                 <td style="padding: 8px; text-align: center;">
                     <form method="post" action="{% url 'delete_user' user.id %}">
                         {% csrf_token %}
