@@ -36,8 +36,12 @@ class CustomUserManager(BaseUserManager):
 class Division(models.Model):
     name = models.CharField(max_length=100)
     floody_districts = models.TextField(default='[]')
-    relief_demand = models.IntegerField(default=0)
-    relief_supply = models.IntegerField(default=0)
+    
+    dry_food_demand = models.IntegerField(default=0)
+    primary_food_demand = models.IntegerField(default=0)
+
+    dry_food_supply = models.IntegerField(default=0)
+    primary_food_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -61,7 +65,8 @@ class Division(models.Model):
     def update_relief_demand(self):
         """Recalculates relief demand based on current floody wards."""
         floody_districts = self.get_floody_districts()
-        self.relief_demand = District.objects.filter(id__in=floody_districts).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+        self.dry_food_demand = District.objects.filter(id__in=floody_districts).aggregate(Sum('dry_food_demand'))['dry_food_demand__sum'] or 0
+        self.primary_food_demand = District.objects.filter(id__in=floody_districts).aggregate(Sum('primary_food_demand'))['primary_food_demand__sum'] or 0
         self.save()
 
     def get_floody_districts(self):
@@ -78,8 +83,12 @@ class District(models.Model):
     name = models.CharField(max_length=100)
     division = models.ForeignKey(Division, on_delete=models.CASCADE)
     floody_upazilas = models.TextField(default='[]')
-    relief_demand = models.IntegerField(default=0)
-    relief_supply = models.IntegerField(default=0)
+
+    dry_food_demand = models.IntegerField(default=0)
+    primary_food_demand = models.IntegerField(default=0)
+
+    dry_food_supply = models.IntegerField(default=0)
+    primary_food_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -105,7 +114,8 @@ class District(models.Model):
     def update_relief_demand(self):
         """Recalculates relief demand based on current floody wards."""
         floody_upazilas = self.get_floody_upazilas()
-        self.relief_demand = Upazila.objects.filter(id__in=floody_upazilas).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+        self.dry_food_demand = Upazila.objects.filter(id__in=floody_upazilas).aggregate(Sum('dry_food_demand'))['dry_food_demand__sum'] or 0
+        self.primary_food_demand = Upazila.objects.filter(id__in=floody_upazilas).aggregate(Sum('primary_food_demand'))['primary_food_demand__sum'] or 0
         self.save()
 
     def get_floody_upazilas(self):
@@ -122,8 +132,12 @@ class Upazila(models.Model):
     name = models.CharField(max_length=100)
     district = models.ForeignKey(District, on_delete=models.CASCADE)
     floody_unions = models.TextField(default='[]')
-    relief_demand = models.IntegerField(default=0)
-    relief_supply = models.IntegerField(default=0)
+
+    dry_food_demand = models.IntegerField(default=0)
+    primary_food_demand = models.IntegerField(default=0)
+
+    dry_food_supply = models.IntegerField(default=0)
+    primary_food_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -150,7 +164,8 @@ class Upazila(models.Model):
     def update_relief_demand(self):
         floody_unions = self.get_floody_unions()
 
-        self.relief_demand = Union.objects.filter(id__in=floody_unions).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+        self.dry_food_demand = Union.objects.filter(id__in=floody_unions).aggregate(Sum('dry_food_demand'))['dry_food_demand__sum'] or 0
+        self.primary_food_demand = Union.objects.filter(id__in=floody_unions).aggregate(Sum('primary_food_demand'))['primary_food_demand__sum'] or 0
         
         self.save()
         
@@ -169,8 +184,10 @@ class Union(models.Model):
     name = models.CharField(max_length=100)
     upazila = models.ForeignKey(Upazila, on_delete=models.CASCADE)
     floody_wards = models.TextField(default='[]')
-    relief_demand = models.IntegerField(default=0)
-    relief_supply = models.IntegerField(default=0)
+    dry_food_demand = models.IntegerField(default=0)
+    primary_food_demand = models.IntegerField(default=0)
+    dry_food_supply = models.IntegerField(default=0)
+    primary_food_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -195,9 +212,12 @@ class Union(models.Model):
         
 
     def update_relief_demand(self):
-        """Recalculates relief demand based on current floody wards."""
+        
         floody_wards = self.get_floody_wards()
-        self.relief_demand = Ward.objects.filter(id__in=floody_wards).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+
+        self.dry_food_demand = Ward.objects.filter(id__in=floody_wards).aggregate(Sum('dry_food_demand'))['dry_food_demand__sum'] or 0
+        
+        self.primary_food_demand = Ward.objects.filter(id__in=floody_wards).aggregate(Sum('primary_food_demand'))['primary_food_demand__sum'] or 0
         self.save()
 
     def get_floody_wards(self):
@@ -213,9 +233,16 @@ class Union(models.Model):
 class Ward(models.Model):
     name = models.CharField(max_length=100)
     union = models.ForeignKey(Union, on_delete=models.CASCADE)
+
     is_flood = models.BooleanField(default=False)
+
     relief_demand = models.IntegerField(default=0)
-    relief_supply = models.IntegerField(default=0)
+    dry_food_demand = models.IntegerField(default=0)
+    primary_food_demand = models.IntegerField(default=0)
+    dry_food_demand_in_percentage = models.IntegerField(default=0)
+
+    dry_food_supply = models.IntegerField(default=0)
+    primary_food_supply = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
@@ -223,6 +250,9 @@ class Ward(models.Model):
     def propagate_flood_status(self):
         if self.is_flood:
             self.relief_demand = Housh.objects.filter(ward=self).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
+            # print(self.dry_food_demand_in_percentage)
+            self.dry_food_demand = (int)((self.relief_demand * self.dry_food_demand_in_percentage) / 100)
+            self.primary_food_demand = self.relief_demand - self.dry_food_demand
             self.save()
             self.union.add_floody_ward(self.id)
 

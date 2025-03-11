@@ -21,8 +21,19 @@
                     </h3>
                 </div>
                 <div class="card-body">
-                    <p class="status-card-detail"><span class="label">Still Demand:</span> {{ division.relief_demand }}</p>
-                    <p class="status-card-detail"><span class="label">Supply:</span> {{ division.relief_supply }}</p>
+                    <p class="status-card-detail">
+                        <span class="label">Still Dry Food Demand:</span> {{ division.dry_food_demand }}
+                    </p>
+                    <p class="status-card-detail">
+                        <span class="label">Dry Food Supply:</span> {{ division.dry_food_supply }}
+                    </p>
+
+                    <p class="status-card-detail">
+                        <span class="label">Still Primary Food Demand:</span> {{ division.primary_food_demand }}
+                    </p>
+                    <p class="status-card-detail">
+                        <span class="label">Primary Food Supply:</span> {{ division.primary_food_supply }}
+                    </p>
                 </div>
             </div>
         {% empty %}

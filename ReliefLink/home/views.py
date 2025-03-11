@@ -140,7 +140,10 @@ def update_flood_status(request):
     if request.method == 'POST':
         ward = request.user.ward
         is_flood = 'is_flood' in request.POST
+        dry_food_demand = int(request.POST.get('dry_food', 0))
+
         ward.is_flood = is_flood
+        ward.dry_food_demand_in_percentage = dry_food_demand
         ward.save()
 
         if is_flood:
