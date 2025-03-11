@@ -10,15 +10,21 @@
     {% comment %} implement flood status {% endcomment %}
     <form method="post" action="{% url 'update_flood_status' %}" style="display: inline;">
         {% csrf_token %}
-        <label>
-            <input type="checkbox" name="is_flood" {% if ward.is_flood %}checked{% endif %}> Is Flood?
-
+        
+        <label for="is_flood">
+            <input type="checkbox" id="is_flood" name="is_flood" {% if ward.is_flood %}checked{% endif %}> Is Flood?
         </label>
+    
+        <label for="dry_food">
+            <input type="number" id="dry_food" name="dry_food" value="{{ ward.dry_food_demand_in_percentage|default:0 }}" min="0" max="100" step="1"> Need Dry Food (in %)
+        </label>
+    
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
+    
 </div>
 
-<!-- Table to Display Deputy Commissioners -->
+<!-- Table to Display Houses -->
 <table border="1" style="width: 100%; border-collapse: collapse;">
     <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Houses</caption>
     <thead>
@@ -34,7 +40,7 @@
                 <th style="padding: 8px;">Relief Supply</th>
             {% endif %}
         </tr>
-    </thead>
+    </thead>l
     <tbody>
         {% for house in houses %}
             <tr>
@@ -55,7 +61,6 @@
                 </td>
                 {% if ward.is_flood %}
                     <td style="padding: 8px;">{{ house.relief_demand }}</td>
-
                     <td style="padding: 8px;">{{ house.relief_supply }}</td>
                 {% endif %}
                 
