@@ -147,8 +147,14 @@ section {
     margin-top: 20px;
 }
 
+.timeline-icon:hover + .timeline-content {
+    border: 2px solid #ff9800;
+    scale: 1.03;
+    transition: all 0.5s;
+}
+
 .timeline-content:hover{
-    border: 1px solid #ff9800;
+    border: 2px solid #ff9800;
 }
 
 .timeline-step:nth-child(odd) .timeline-icon {
