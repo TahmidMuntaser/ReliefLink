@@ -36,29 +36,38 @@
     </div>
 </section>
 
-<div class="services-section">
-    <h2>Our Services</h2>
-    <div class="services-container">
-
-        <div class="service">
-            <i class="fas fa-hands-helping"></i>
-            <h3>Disaster Relief</h3>
-            <p>Providing immediate assistance to those affected by natural disasters.</p>
-        </div>
-
-        <div class="service">
-            <i class="fas fa-warehouse"></i>
-            <h3>Resource Management</h3>
-            <p>Efficiently managing and distributing resources to those in need.</p>
-        </div>
-
-        <div class="service">
-            <i class="fas fa-users"></i>
-            <h3>Community Support</h3>
-            <p>Building strong communities through support and engagement.</p>
+<section class="services-section">
+    <div class="services-image">
+        <img src="{% static 'home/images/Relief3.jpg' %}" alt="Relief Efforts">
+    </div>
+    <div class="services-content">
+        <h2>Our Services</h2>
+        <p>We provide essential support in disaster relief, resource management, and community building.</p>
+        <div class="services-list">
+            <div class="service">
+                <i class="fas fa-hands-helping"></i>
+                <div class="service-text">
+                    <h3>Disaster Relief</h3>
+                    <p>Immediate aid for communities affected by natural disasters.</p>
+                </div>
+            </div>
+            <div class="service">
+                <i class="fas fa-warehouse"></i>
+                <div class="service-text">
+                    <h3>Resource Management</h3>
+                    <p>Optimizing resource distribution for maximum impact.</p>
+                </div>
+            </div>
+            <div class="service">
+                <i class="fas fa-users"></i>
+                <div class="service-text">
+                    <h3>Community Support</h3>
+                    <p>Strengthening communities through collaboration and engagement.</p>
+                </div>
+            </div>
         </div>
     </div>
+</section>
 
-</div>
 
 {% endblock %}
