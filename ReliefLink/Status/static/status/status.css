@@ -54,6 +54,19 @@
     transition: color 0.2s linear;
 }
 
+.status-card-link {
+    color: #f1c40f; 
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.status-card-link:hover,
+.status-card-link:focus {
+    color: #dfb81c; 
+    border-bottom: 1px solid #ecc00c;
+}
+
 /* .status-card-link:visited {
     color: #2980b9;
 } */
