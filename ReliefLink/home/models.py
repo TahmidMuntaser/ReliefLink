@@ -258,6 +258,17 @@ class Ward(models.Model):
     def __str__(self):
         return self.name
 
+    def relief_supply(self, relief, relief_type):
+        self.relief_demand -= relief
+        if relief_type == 'dry':
+            self.dry_food_supply -= relief
+        else:
+            self.primary_food_supply -= relief
+        self.save()
+        self.union.add_floody_ward(self.id)
+
+
+
     def propagate_flood_status(self):
         if self.is_flood:
             self.relief_demand = Housh.objects.filter(ward=self).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
@@ -278,7 +289,8 @@ class Housh(models.Model):
     ward = models.ForeignKey(Ward, on_delete=models.CASCADE)
     family_member = models.IntegerField()
     relief_demand = models.IntegerField()
-    relief_supply = models.IntegerField(default=0)
+    dry_food_supply = models.IntegerField(default=0)
+    primary_food_supply = models.IntegerField(default= 0)
 
     def save(self, *args, **kwargs):
         # Ensure relief_demand is initialized properly
@@ -287,8 +299,8 @@ class Housh(models.Model):
         self.relief_demand = self.family_member
 
         # Deduct relief_supply if not None
-        if self.relief_supply is not None:
-            self.relief_demand -= self.relief_supply
+        if self.dry_food_supply is not None or self.primary_food_supply is not None:
+            self.relief_demand -= (self.dry_food_supply + self.primary_food_supply)
 
         # Generate holding_number if it doesn't exist
         if not self.holding_number:
@@ -307,6 +319,17 @@ class Housh(models.Model):
                 raise ValueError("Invalid data for holding number generation.")
 
         super().save(*args, **kwargs)
+
+    def ReliefSupply(self, relief, relief_type):
+        if relief_type == 'dry':
+            self.dry_food_supply += relief
+        else:
+            self.primary_food_supply += relief
+        Housh.save(self)
+
+        self.ward.relief_supply(relief, relief_type)
+
+
 
 
 class PasswordUtility:
