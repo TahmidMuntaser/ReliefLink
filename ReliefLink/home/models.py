@@ -1,5 +1,5 @@
 # home/models.py
-import json
+import json, math
 from django.db import models
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import make_password
@@ -52,6 +52,8 @@ class Division(models.Model):
             floody_districts.append(district_id)
             self.set_floody_districts(floody_districts)
             self.update_relief_demand()
+        else:
+            self.update_relief_demand()
 
 
     def remove_floody_district(self, district_id):
@@ -98,6 +100,9 @@ class District(models.Model):
         if upazila_id not in floody_upazilas:
             floody_upazilas.append(upazila_id)
             self.set_floody_upazilas(floody_upazilas)
+            self.update_relief_demand()
+            self.division.add_floody_district(self.id)
+        else:
             self.update_relief_demand()
             self.division.add_floody_district(self.id)
 
@@ -150,6 +155,9 @@ class Upazila(models.Model):
             self.set_floody_unions(floody_unions)
             self.update_relief_demand()
             self.district.add_floody_upazila(self.id)
+        else:
+            self.update_relief_demand()
+            self.district.add_floody_upazila(self.id)
 
         
     def remove_floody_union(self, union_id):
@@ -197,6 +205,9 @@ class Union(models.Model):
         if ward_id not in floody_wards:
             floody_wards.append(ward_id)
             self.set_floody_wards(floody_wards)
+            self.update_relief_demand()
+            self.upazila.add_floody_union(self.id)
+        else:
             self.update_relief_demand()
             self.upazila.add_floody_union(self.id)
         
@@ -251,7 +262,7 @@ class Ward(models.Model):
         if self.is_flood:
             self.relief_demand = Housh.objects.filter(ward=self).aggregate(Sum('relief_demand'))['relief_demand__sum'] or 0
             # print(self.dry_food_demand_in_percentage)
-            self.dry_food_demand = (int)((self.relief_demand * self.dry_food_demand_in_percentage) / 100)
+            self.dry_food_demand = math.ceil((self.relief_demand * self.dry_food_demand_in_percentage) / 100)
             self.primary_food_demand = self.relief_demand - self.dry_food_demand
             self.save()
             self.union.add_floody_ward(self.id)
