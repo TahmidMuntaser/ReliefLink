@@ -151,3 +151,25 @@ def update_flood_status(request):
         else:
             ward.propagate_flood_remove_status()
         return redirect('dashboard')
+    
+@login_required
+def housh_info(request, house_id):
+    housh = Housh.objects.get(id=house_id)
+    # ward = housh.ward
+    if request.method == "POST":
+        form = ReliefSupplyForm(request.POST)
+        if form.is_valid():
+            relief_supply = form.cleaned_data['relief_supply']
+            relief_type = form.cleaned_data['relief_type']
+            housh.ReliefSupply(relief_supply, relief_type)
+
+        return redirect('dashboard')
+
+    else:
+        form = ReliefSupplyForm()
+    
+    content = {
+        'housh' : housh,
+        'form' : form
+    }
+    return render(request, 'home/housh_info.html', content)
