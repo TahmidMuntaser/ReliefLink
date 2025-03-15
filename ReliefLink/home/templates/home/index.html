@@ -27,7 +27,7 @@
 <section class="about-section">
     <div class="container about-container">
         <div class="about-text">
-            <h2>About RELIEF<span class='highlight'>LINK</span></h2>
+            <h2>About Relief<span class='highlight'>LINK</span></h2>
             <p>We are dedicated to providing efficient disaster relief and seamless resource management. Our platform connects communities with the right aid at the right time.</p>
         </div>
         <div class="about-image">
@@ -69,5 +69,57 @@
     </div>
 </section>
 
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="faq-container">
+        <h2>FAQ</h2>
+        
+        <div class="faq-item">
+            <button class="faq-question">What is ReliefLink?</button>
+            <div class="faq-answer">
+                <p>ReliefLink is a platform dedicated to disaster relief and resource management that connects communities with the aid they need.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <button class="faq-question">How does ReliefLink work?</button>
+            <div class="faq-answer">
+                <p>Our platform leverages real-time data to coordinate relief efforts and ensures efficient distribution of resources to the affected communities.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <button class="faq-question">How can I get involved?</button>
+            <div class="faq-answer">
+                <p>You can get involved by registering on our platform, subscribing to updates, or participating in community initiatives.</p>
+            </div>
+        </div>
+
+
+        <div class="faq-item">
+            <button class="faq-question">What areas does ReliefLink serve?</button>
+            <div class="faq-answer">
+                <p>ReliefLink currently serves multiple regions and is rapidly expanding to cover more disaster-affected areas globally.</p>
+            </div>
+        </div>
+
+
+    </div>
+
+</section>
+
+<script>
+    document.querySelectorAll('.faq-question').forEach(item => {
+        item.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const answer = this.nextElementSibling;
+            if(answer.style.maxHeight){
+                answer.style.maxHeight = null;
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            }
+        });
+    });
+</script>
 
 {% endblock %}
