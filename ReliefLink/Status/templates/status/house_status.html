@@ -18,7 +18,11 @@
                 </div>
                 <div class="card-body">
                     <p class="status-card-detail"><span class="label">Still Demand:</span> {{ house.relief_demand }}</p>
-                    <p class="status-card-detail"><span class="label">Supply:</span> {{ house.relief_supply }}</p>
+                    {% with total_supply=house.dry_food_supply|add:house.primary_food_supply %}
+                        <p class="status-card-detail">
+                            <span class="label">Supply:</span> {{ total_supply }}
+                        </p>
+                    {% endwith %}
                 </div>
             </div>
         {% empty %}

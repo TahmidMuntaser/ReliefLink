@@ -7,6 +7,8 @@ from django.conf import settings
 from .models import *
 from django.contrib.auth import get_user_model
 from .forms import *
+from django.db.models import F
+
 
 User = get_user_model()
 
@@ -142,6 +144,11 @@ def update_flood_status(request):
         is_flood = 'is_flood' in request.POST
         dry_food_demand = int(request.POST.get('dry_food', 0))
 
+        if ward.is_flood != is_flood and is_flood == False:
+            Housh.objects.filter(ward=ward).update(relief_demand = F('family_member'), dry_food_supply = 0, primary_food_supply = 0)
+            ward.dry_food_supply = 0
+            ward.primary_food_supply = 0
+
         ward.is_flood = is_flood
         ward.dry_food_demand_in_percentage = dry_food_demand
         ward.save()
@@ -153,7 +160,7 @@ def update_flood_status(request):
         return redirect('dashboard')
     
 @login_required
-def housh_info(request, house_id):
+def relief_supply(request, house_id):
     housh = Housh.objects.get(id=house_id)
     # ward = housh.ward
     if request.method == "POST":
@@ -161,7 +168,8 @@ def housh_info(request, house_id):
         if form.is_valid():
             relief_supply = form.cleaned_data['relief_supply']
             relief_type = form.cleaned_data['relief_type']
-            housh.ReliefSupply(relief_supply, relief_type)
+            if(relief_supply > 0):
+                housh.ReliefSupply(relief_supply, relief_type)
 
         return redirect('dashboard')
 
@@ -172,4 +180,4 @@ def housh_info(request, house_id):
         'housh' : housh,
         'form' : form
     }
-    return render(request, 'home/housh_info.html', content)
+    return render(request, 'home/relief_supply.html', content)

@@ -27,7 +27,7 @@ urlpatterns = [
 
     path('update_flood_status/', views.update_flood_status, name = 'update_flood_status'),
 
-    path('house/<int:house_id>//', views.housh_info, name = 'housh_info'),
+    path('relief_supply/<int:house_id>//', views.relief_supply, name = 'relief_supply'),
 
 
 ]

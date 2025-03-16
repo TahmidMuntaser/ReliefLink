@@ -68,7 +68,13 @@ class Division(models.Model):
         """Recalculates relief demand based on current floody wards."""
         floody_districts = self.get_floody_districts()
         self.dry_food_demand = District.objects.filter(id__in=floody_districts).aggregate(Sum('dry_food_demand'))['dry_food_demand__sum'] or 0
+
         self.primary_food_demand = District.objects.filter(id__in=floody_districts).aggregate(Sum('primary_food_demand'))['primary_food_demand__sum'] or 0
+
+        self.dry_food_supply = District.objects.filter(id__in=floody_districts).aggregate(Sum('dry_food_supply'))['dry_food_supply__sum'] or 0
+
+        self.primary_food_supply = District.objects.filter(id__in=floody_districts).aggregate(Sum('primary_food_supply'))['primary_food_supply__sum'] or 0
+
         self.save()
 
     def get_floody_districts(self):
@@ -120,7 +126,12 @@ class District(models.Model):
         """Recalculates relief demand based on current floody wards."""
         floody_upazilas = self.get_floody_upazilas()
         self.dry_food_demand = Upazila.objects.filter(id__in=floody_upazilas).aggregate(Sum('dry_food_demand'))['dry_food_demand__sum'] or 0
+
         self.primary_food_demand = Upazila.objects.filter(id__in=floody_upazilas).aggregate(Sum('primary_food_demand'))['primary_food_demand__sum'] or 0
+
+        self.dry_food_supply = Upazila.objects.filter(id__in=floody_upazilas).aggregate(Sum('dry_food_supply'))['dry_food_supply__sum'] or 0
+
+        self.primary_food_supply = Upazila.objects.filter(id__in=floody_upazilas).aggregate(Sum('primary_food_supply'))['primary_food_supply__sum'] or 0
         self.save()
 
     def get_floody_upazilas(self):
@@ -173,7 +184,12 @@ class Upazila(models.Model):
         floody_unions = self.get_floody_unions()
 
         self.dry_food_demand = Union.objects.filter(id__in=floody_unions).aggregate(Sum('dry_food_demand'))['dry_food_demand__sum'] or 0
+
         self.primary_food_demand = Union.objects.filter(id__in=floody_unions).aggregate(Sum('primary_food_demand'))['primary_food_demand__sum'] or 0
+
+        self.dry_food_supply = Union.objects.filter(id__in=floody_unions).aggregate(Sum('dry_food_supply'))['dry_food_supply__sum'] or 0
+
+        self.primary_food_supply = Union.objects.filter(id__in=floody_unions).aggregate(Sum('primary_food_supply'))['primary_food_supply__sum'] or 0
         
         self.save()
         
@@ -208,6 +224,7 @@ class Union(models.Model):
             self.update_relief_demand()
             self.upazila.add_floody_union(self.id)
         else:
+            # print("cole")
             self.update_relief_demand()
             self.upazila.add_floody_union(self.id)
         
@@ -227,8 +244,13 @@ class Union(models.Model):
         floody_wards = self.get_floody_wards()
 
         self.dry_food_demand = Ward.objects.filter(id__in=floody_wards).aggregate(Sum('dry_food_demand'))['dry_food_demand__sum'] or 0
-        
+
         self.primary_food_demand = Ward.objects.filter(id__in=floody_wards).aggregate(Sum('primary_food_demand'))['primary_food_demand__sum'] or 0
+
+        self.dry_food_supply = Ward.objects.filter(id__in=floody_wards).aggregate(Sum('dry_food_supply'))['dry_food_supply__sum'] or 0
+
+        self.primary_food_supply = Ward.objects.filter(id__in=floody_wards).aggregate(Sum('primary_food_supply'))['primary_food_supply__sum'] or 0
+
         self.save()
 
     def get_floody_wards(self):
@@ -261,9 +283,12 @@ class Ward(models.Model):
     def relief_supply(self, relief, relief_type):
         self.relief_demand -= relief
         if relief_type == 'dry':
-            self.dry_food_supply -= relief
+            self.dry_food_supply += relief
+            self.dry_food_demand -= relief
         else:
-            self.primary_food_supply -= relief
+            self.primary_food_supply += relief
+            self.primary_food_demand -= relief
+        
         self.save()
         self.union.add_floody_ward(self.id)
 
