@@ -37,14 +37,19 @@
             <th style="padding: 8px;">Death</th>
             {% if ward.is_flood %}
                 <th style="padding: 8px;">Relief Demand</th>
-                <th style="padding: 8px;">Relief Supply</th>
+                <th style="padding: 8px;">Dry Food Supply</th>
+                <th style="padding: 8px;">Primary Supply</th>
             {% endif %}
         </tr>
     </thead>l
     <tbody>
         {% for house in houses %}
             <tr>
-                <td style="padding: 8px;">{{ house.holding_number }}</td>
+                <td style="padding: 8px;">
+                    <a href="{% url 'housh_info' house.id %}">
+                    {{ house.holding_number }}
+                    </a>
+                </td>
                 <td style="padding: 8px;">{{ house.ward }}</td>
                 <td style="padding: 8px;">{{ house.family_member }}</td>
                 <td style="padding: 8px; text-align: center;">
@@ -61,7 +66,8 @@
                 </td>
                 {% if ward.is_flood %}
                     <td style="padding: 8px;">{{ house.relief_demand }}</td>
-                    <td style="padding: 8px;">{{ house.relief_supply }}</td>
+                    <td style="padding: 8px;">{{ house.dry_food_supply }}</td>
+                    <td style="padding: 8px;">{{ house.primary_food_supply }}</td>
                 {% endif %}
                 
                 

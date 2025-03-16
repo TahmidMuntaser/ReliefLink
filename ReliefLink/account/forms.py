@@ -248,3 +248,4 @@ class AddHouseForm(forms.ModelForm):
     class Meta:
         model = Housh
         fields = ['family_member']
+
