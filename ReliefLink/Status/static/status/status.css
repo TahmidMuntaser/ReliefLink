@@ -96,3 +96,51 @@
     height: 2px;
     background: linear-gradient(90deg, transparent, #f1c40f);
 }
+
+@media (max-width: 768px) {
+    .status-section {
+        padding: 20px;
+        margin: 20px auto;
+        max-width: 95%;
+    }
+    .status-title {
+        font-size: 2em;
+        margin-bottom: 20px;
+    }
+    .status-card {
+        padding: 5px;
+    }
+    .status-card-title {
+        font-size: 1.4em;
+    }
+    .card-body {
+        font-size: 0.95em;
+    }
+    .status-card-detail {
+        margin: 8px 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .status-section {
+        padding: 15px;
+        margin: 15px auto;
+        max-width: 100%;
+    }
+    .status-title {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+    .status-card {
+        padding: 10px;
+    }
+    .status-card-title {
+        font-size: 1.2em;
+    }
+    .card-body {
+        font-size: 0.9em;
+    }
+    .status-card-detail {
+        margin: 5px 0;
+    }
+}
