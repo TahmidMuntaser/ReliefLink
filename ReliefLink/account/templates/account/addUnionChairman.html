@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %}Add Union Chairman{% endblock %}
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'account/divisionalcommissioner.css' %}">
 <link rel="stylesheet" href="{% static 'account/style.css' %}">
 {% endblock %}
 {% block content %}
@@ -13,7 +14,7 @@
             {{ form.as_p }}
             <button class="btn btn-primary" type="submit">Register</button>
         </form>
-        <p>go Home? <a href="{% url 'home' %}"> Home</a></p>
+        {% comment %} <p>go Home? <a href="{% url 'home' %}"> Home</a></p> {% endcomment %}
     </div>
 </div>
 {% endblock %}

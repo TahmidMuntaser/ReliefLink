@@ -1,50 +1,59 @@
 {% extends 'global/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/divisionalcommissioner_dashboard.css' %}">
+{% endblock %}
+
 {% block title %}UNO Dashboard{% endblock %}
+
 {% block content %}
-<h2>UNO : {{ upazila }} </h2>
+<div class="divisional-dashboard">
+    <h2>UNO : {{ upazila }}</h2>
 
-<!-- Button to Create a New User -->
-<div style="margin-bottom: 20px;">
-    <a href="{% url 'add_unionchairman' %}" class="btn btn-success">Create New Union Chairman</a>
-</div>
+    <!-- Button to Create a New User -->
+    <div style="margin-bottom: 20px; text-align: center;">
+        <a href="{% url 'add_unionchairman' %}" class="btn btn-success">Create New Union Chairman</a>
+    </div>
 
-<!-- Table to Display Deputy Commissioners -->
-<table border="1" style="width: 100%; border-collapse: collapse;">
-    <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Union Chairmans</caption>
-    <thead>
-        <tr style="background-color: #f4f4f4;">
-            <th style="padding: 8px;">Name</th>
-            <th style="padding: 8px;">Email</th>
-            <th style="padding: 8px;">Union</th>
-            {% if upazila.floody_unions %}
-                <th style="padding: 8px;">Relief Demand</th>
-                <th style="padding: 8px;">Relief Supply</th>
-            {% endif %}
-            <th style="padding: 8px;">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for unionchairman in unionchairmans %}
-            <tr>
-                <td style="padding: 8px;">{{ unionchairman.name }}</td>
-                <td style="padding: 8px;">{{ unionchairman.email }}</td>
-                <td style="padding: 8px;">{{ unionchairman.union }}</td>
+    <!-- Table to Display Union Chairmans -->
+    <table border="1" style="width: 100%; border-collapse: collapse;">
+        <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Union Chairmans</caption>
+        <thead>
+            <tr style="background-color: #f4f4f4;">
+                <th style="padding: 8px;">Name</th>
+                <th style="padding: 8px;">Email</th>
+                <th style="padding: 8px;">Union</th>
                 {% if upazila.floody_unions %}
-                    <td style="padding: 8px;">{{ unionchairman.union.relief_demand }}</td>
-                    <td style="padding: 8px;">{{ unionchairman.union.relief_supply }}</td>
+                    <th style="padding: 8px;">Relief Demand</th>
+                    <th style="padding: 8px;">Relief Supply</th>
                 {% endif %}
-                <td style="padding: 8px; text-align: center;">
-                    <form method="post" action="{% url 'delete_user' user.id %}">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
-                </td>
+                <th style="padding: 8px;">Actions</th>
             </tr>
-        {% empty %}
-            <tr>
-                <td colspan="4" style="text-align: center; padding: 8px;">No Union Chairman found.</td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for unionchairman in unionchairmans %}
+                <tr>
+                    <td style="padding: 8px;">{{ unionchairman.name }}</td>
+                    <td style="padding: 8px;">{{ unionchairman.email }}</td>
+                    <td style="padding: 8px;">{{ unionchairman.union }}</td>
+                    {% if upazila.floody_unions %}
+                        <td style="padding: 8px;">{{ unionchairman.union.relief_demand }}</td>
+                        <td style="padding: 8px;">{{ unionchairman.union.relief_supply }}</td>
+                    {% endif %}
+                    <td style="padding: 8px; text-align: center;">
+                        <form method="post" action="{% url 'delete_user' user.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 8px;">No Union Chairman found.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
