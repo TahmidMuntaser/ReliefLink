@@ -11,37 +11,37 @@
 <div class="divisional-dashboard">
     <h2>UNO : {{ upazila }}</h2>
 
-    <!-- Button to Create a New User -->
-    <div style="margin-bottom: 20px; text-align: center;">
+    <!-- Button to Create a New Union Chairman -->
+    <div class="button-container">
         <a href="{% url 'add_unionchairman' %}" class="btn btn-success">Create New Union Chairman</a>
     </div>
 
     <!-- Table to Display Union Chairmans -->
-    <table border="1" style="width: 100%; border-collapse: collapse;">
-        <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Union Chairmans</caption>
+    <table class="dashboard-table">
+        <caption>Union Chairmans</caption>
         <thead>
-            <tr style="background-color: #f4f4f4;">
-                <th style="padding: 8px;">Name</th>
-                <th style="padding: 8px;">Email</th>
-                <th style="padding: 8px;">Union</th>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Union</th>
                 {% if upazila.floody_unions %}
-                    <th style="padding: 8px;">Relief Demand</th>
-                    <th style="padding: 8px;">Relief Supply</th>
+                    <th>Relief Demand</th>
+                    <th>Relief Supply</th>
                 {% endif %}
-                <th style="padding: 8px;">Actions</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for unionchairman in unionchairmans %}
                 <tr>
-                    <td style="padding: 8px;">{{ unionchairman.name }}</td>
-                    <td style="padding: 8px;">{{ unionchairman.email }}</td>
-                    <td style="padding: 8px;">{{ unionchairman.union }}</td>
+                    <td>{{ unionchairman.name }}</td>
+                    <td>{{ unionchairman.email }}</td>
+                    <td>{{ unionchairman.union }}</td>
                     {% if upazila.floody_unions %}
-                        <td style="padding: 8px;">{{ unionchairman.union.relief_demand }}</td>
-                        <td style="padding: 8px;">{{ unionchairman.union.relief_supply }}</td>
+                        <td>{{ unionchairman.union.relief_demand }}</td>
+                        <td>{{ unionchairman.union.relief_supply }}</td>
                     {% endif %}
-                    <td style="padding: 8px; text-align: center;">
+                    <td class="action-cell">
                         <form method="post" action="{% url 'delete_user' user.id %}">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger">Delete</button>
@@ -50,7 +50,7 @@
                 </tr>
             {% empty %}
                 <tr>
-                    <td colspan="4" style="text-align: center; padding: 8px;">No Union Chairman found.</td>
+                    <td colspan="4" class="no-data">No Union Chairman found.</td>
                 </tr>
             {% endfor %}
         </tbody>
