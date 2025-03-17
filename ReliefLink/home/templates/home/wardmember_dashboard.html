@@ -1,27 +1,33 @@
 {% extends 'global/base.html' %}
+{% load static %}
 {% block title %}Ward Member{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/wardMember.css' %}">
+{% endblock %}
 {% block content %}
 <h2>Ward Member : {{ ward }} </h2>
 
 <!-- Button to Create a New House -->
-<div style="margin-bottom: 20px;">
+<div class="action-container">
     <a href="{% url 'add_house' %}" class="btn btn-success">Create New House</a>
 
     {% comment %} implement flood status {% endcomment %}
-    <form method="post" action="{% url 'update_flood_status' %}" style="display: inline;">
+    <form method="post" action="{% url 'update_flood_status' %}" class="inline-form">
         {% csrf_token %}
         
         <label for="is_flood">
-            <input type="checkbox" id="is_flood" name="is_flood" {% if ward.is_flood %}checked{% endif %}> Is Flood?
+            <input type="checkbox" id="is_flood" name="is_flood" {% if ward.is_flood %}checked{% endif %}>
+            Is Flood?
         </label>
     
         <label for="dry_food">
-            <input type="number" id="dry_food" name="dry_food" value="{{ ward.dry_food_demand_in_percentage|default:0 }}" min="0" max="100" step="1"> Need Dry Food (in %)
+            <input type="number" id="dry_food" name="dry_food" 
+                   value="{{ ward.dry_food_demand_in_percentage|default:0 }}" min="0" max="100" step="1">
+            Need Dry Food (in %)
         </label>
     
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
-    
 </div>
 
 <!-- Table to Display Houses -->
@@ -46,7 +52,7 @@
             
             
         </tr>
-    </thead>l
+    </thead>
     <tbody>
         {% for house in houses %}
             <tr>
@@ -77,7 +83,7 @@
                     <td style="padding: 8px; text-align: center;">
                         <form method="post" action="{% url 'delete_house' house.id %}">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <button type="submit" class="btn btn-danger2">Delete</button>
                         </form>
                     </td>
                 {% endif %}

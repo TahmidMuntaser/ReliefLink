@@ -1,0 +1,177 @@
+body {
+    background-color: #f9f9f9;
+    font-family: 'Poppins', sans-serif;
+}
+
+h2 {
+    text-align: center;
+    margin: 24px;
+    color: #333;
+}
+
+.button-container,
+.flood-container,
+.dryfood-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+
+.btn-success {
+    background-color: #5cb85c;
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #4cae4c;
+}
+
+.btn-primary {
+    background-color: #ff9800;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #e28b07;
+}
+
+.btn-danger {
+    background-color: #d9534f;
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger2{
+    background-color: #ffbb00;
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c9302c;
+}
+.btn-danger2:hover {
+    background-color: #e28b07;
+}
+
+form.inline-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 15px;
+}
+
+
+form.inline-form label {
+    font-size: 0.95em;
+    color: #333;
+}
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: #fff;
+}
+
+caption {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+th, td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+thead tr {
+    background-color: #f4f4f4;
+}
+
+
+@media (max-width: 768px) {
+    table, tbody, th, td {
+        font-size: 0.9em;
+    }
+    .button-container,
+    .flood-container,
+    .dryfood-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* Styl.action-container {
+    margin-bottom: 20px;
+}
+
+*/
+.action-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.action-container > a.btn-success {
+    display: inline-block;
+    margin: 15px auto; 
+    max-width: 200px; 
+    text-align: center;
+}
+
+.inline-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+
+.inline-form label {
+    display: block;
+    font-size: 1em;
+    color: #333;
+}
+
+
+.inline-form button.btn-primary {
+    display: block;
+}
+
+.inline-form label[for="dry_food"] {
+    display: block;
+    font-size: 1em;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.inline-form label[for="dry_food"] input[type="number"] {
+    display: inline-block;
+    width: 80px;  
+    padding: 4px;
+    margin-right: 10px;  
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
