@@ -25,8 +25,10 @@
                 <th style="padding: 8px;">Email</th>
                 <th style="padding: 8px;">Upazila</th>
                 {% if district.floody_upazilas %}
-                    <th style="padding: 8px;">Relief Demand</th>
-                    <th style="padding: 8px;">Relief Supply</th>
+                    <th style="padding: 8px;">Dry Food Demand</th>
+                    <th style="padding: 8px;">Primary Food Demand</th>
+                    <th style="padding: 8px;">Dry Food Supply</th>
+                    <th style="padding: 8px;">Primary Food Supply</th>
                 {% endif %}
                 <th style="padding: 8px;">Actions</th>
             </tr>
@@ -38,8 +40,10 @@
                     <td style="padding: 8px;">{{ uno.email }}</td>
                     <td style="padding: 8px;">{{ uno.upazila }}</td>
                     {% if district.floody_upazilas %}
-                        <td style="padding: 8px;">{{ uno.upazila.relief_demand }}</td>
-                        <td style="padding: 8px;">{{ uno.upazila.relief_supply }}</td>
+                        <td style="padding: 8px;">{{ uno.upazila.dry_food_demand }}</td>
+                        <td style="padding: 8px;">{{ uno.upazila.primary_food_demand }}</td>
+                        <td style="padding: 8px;">{{ uno.upazila.dry_food_supply }}</td>
+                        <td style="padding: 8px;">{{ uno.upazila.primary_food_supply }}</td>
                     {% endif %}
                     <td style="padding: 8px; text-align: center;">
                         <form method="post" action="{% url 'delete_user' user.id %}">

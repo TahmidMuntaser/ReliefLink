@@ -25,8 +25,10 @@
                 <th>Email</th>
                 <th>District</th>
                 {% if division.floody_districts %}
-                    <th>Relief Demand</th>
-                    <th>Relief Supply</th>
+                    <th style="padding: 8px;">Dry Food Demand</th>
+                    <th style="padding: 8px;">Primary Food Demand</th>
+                    <th style="padding: 8px;">Dry Food Supply</th>
+                    <th style="padding: 8px;">Primary Food Supply</th>
                 {% endif %}
                 <th>Actions</th>
             </tr>
@@ -38,8 +40,10 @@
                     <td>{{ deputycommissioner.email }}</td>
                     <td>{{ deputycommissioner.district }}</td>
                     {% if division.floody_districts %}
-                        <td>{{ deputycommissioner.district.relief_demand }}</td>
-                        <td>{{ deputycommissioner.district.relief_supply }}</td>
+                        <td>{{ deputycommissioner.district.dry_food_demand }}</td>
+                        <td>{{ deputycommissioner.district.primary_food_demand }}</td>
+                        <td>{{ deputycommissioner.district.dry_food_supply }}</td>
+                        <td>{{ deputycommissioner.district.primary_food_supply }}</td>
                     {% endif %}
                     <td style="text-align: center;">
                         <form method="post" action="{% url 'delete_user' user.id %}">
