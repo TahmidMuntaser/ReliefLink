@@ -315,3 +315,116 @@
 }
 
 
+
+@media (max-width: 992px) {
+   
+    .hero-content h1 {
+        font-size: 3em;
+    }
+    .hero-content p {
+        font-size: 20px;
+    }
+    .cta-button {
+        font-size: 1em;
+        padding: 12px 25px;
+    }
+    
+
+    .services-section {
+        flex-direction: column;
+        padding: 40px 5%;
+    }
+    .services-image,
+    .services-content {
+        max-width: 100%;
+    }
+    .services-image img {
+        height: auto;
+    }
+  }
+  
+  @media (max-width: 768px) {
+   
+    .hero-section {
+        height: 60vh;
+    }
+    .hero-content h1 {
+        font-size: 2.5em;
+    }
+    .hero-content p {
+        font-size: 18px;
+    }
+    
+    
+    .services-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 5%;
+        gap: 30px;
+    }
+    .services-image,
+    .services-content {
+        max-width: 100%;
+    }
+    .services-image img {
+        height: auto;
+    }
+    
+
+    .faq-container h2 {
+        font-size: 2rem;
+        padding: 0 20px;
+        text-align: center;
+    }
+    .faq-item {
+        padding: 12px 0;
+    }
+    .faq-question {
+        font-size: 1.1rem;
+        padding: 8px 15px;
+        text-align: left;
+    }
+    .faq-answer p {
+        font-size: 0.95rem;
+        margin: 8px 15px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    
+    .hero-content h1 {
+        font-size: 2em;
+    }
+    .hero-content p {
+        font-size: 16px;
+    }
+    .cta-button {
+        font-size: 1em;
+        padding: 10px 20px;
+    }
+    
+  
+    .services-content h2 {
+        font-size: 2em;
+    }
+    .about-text h2 {
+        font-size: 2rem;
+    }
+    .faq-container h2 {
+        font-size: 1.8rem;
+        padding: 0 20px;  
+        text-align: center;
+    }
+    .faq-item {
+        padding: 10px 0;
+    }
+    .faq-question {
+        font-size: 1rem;
+        padding: 8px 20px; 
+        text-align: center;
+    }
+    .faq-answer p {
+        font-size: 0.9rem;
+        margin: 8px 20px;  
+    }
+  }
