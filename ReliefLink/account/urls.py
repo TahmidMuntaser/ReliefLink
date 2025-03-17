@@ -24,6 +24,7 @@ urlpatterns = [
     path('add_wardmember/', views.add_wardmember_view, name='add_wardmember'),
 
     path('add_house/', views.add_house_view, name='add_house'),
+    path('delete_house/<int:house_id>', views.delete_house_view, name='delete_house'),
     path('born/<int:house_id>/', views.born_view, name='born'),
     path('death/<int:house_id>/', views.death_view, name='death'),
 
