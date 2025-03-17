@@ -1,13 +1,19 @@
 {% extends 'global/base.html' %}
+{% load static %}
 {% block title %}Housh{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/relief_supply.css' %}">
+{% endblock %}
 {% block content %}
-<h2>Housh : {{ housh.holding_number }} </h2>
-<h2> fd{{house}} </h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}  <!-- Renders the form with <p> tags -->
-    <button type="submit">Submit</button>
-</form>
-
-
+<div class="supply-container">
+    <div class="supply-form">
+        <h2>Housh : {{ housh.holding_number }} </h2>
+        <h2> fd{{ house }} </h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
