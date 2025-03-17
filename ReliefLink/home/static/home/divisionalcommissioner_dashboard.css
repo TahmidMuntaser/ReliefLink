@@ -1,0 +1,140 @@
+.divisional-dashboard {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 8px;
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
+}
+
+.divisional-dashboard h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+
+.divisional-dashboard .btn-success {
+    display: block;
+    width: fit-content; 
+    margin: 0 auto; 
+    background-color: #28a745;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.divisional-dashboard .btn-success:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+
+.divisional-dashboard table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.divisional-dashboard table caption {
+    font-size: 2rem;
+    font-weight: bold;
+    padding: 20px 0;
+    color: #333;
+    margin-bottom: 10px;
+    background-color: #f8f9fa;
+}
+
+.divisional-dashboard table th,
+.divisional-dashboard table td {
+    padding: 12px;
+    border: 1px solid #e2e2e2;
+    text-align: left;
+}
+
+.divisional-dashboard table thead {
+    background-color: #f4f4f4;
+    font-weight: 600;
+}
+
+.divisional-dashboard table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.divisional-dashboard table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+
+.divisional-dashboard .btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.divisional-dashboard .btn-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+
+
+@media (max-width: 768px) {
+    .divisional-dashboard {
+        padding: 1.5rem;
+        margin: 1rem auto;
+    }
+    .divisional-dashboard h2 {
+        font-size: 2rem;
+    }
+    
+    .divisional-dashboard table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        font-size: 90%;
+    }
+    .divisional-dashboard table th,
+    .divisional-dashboard table td {
+        padding: 8px;
+    }
+    .divisional-dashboard .btn-success,
+    .divisional-dashboard .btn-danger {
+        padding: 0.65rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .divisional-dashboard {
+        padding: 1rem;
+        margin: 0.5rem auto;
+    }
+    .divisional-dashboard h2 {
+        font-size: 1.5rem;
+    }
+    .divisional-dashboard table {
+        font-size: 0.8rem;
+    }
+    .divisional-dashboard table th,
+    .divisional-dashboard table td {
+        padding: 6px;
+    }
+    .divisional-dashboard .btn-success,
+    .divisional-dashboard .btn-danger {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.85rem;
+    }
+}
