@@ -1,0 +1,117 @@
+body {
+    background-color: #f4f7f6;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    padding: 20px;
+    background-color: #f4f7f6;
+}
+
+.login-form {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;  
+}
+
+.login-form h2 {
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    text-align: center;  
+    color: #333;
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form form p {
+    margin-bottom: 15px;
+    font-size: 1em;
+    color: #555;
+    text-align: left;  
+    
+}
+
+.btn.btn-primary {
+    background-color: #ff9800;
+    border: none;
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn.btn-primary:hover {
+    background-color: #e68900;
+}
+
+.login-form p {
+    text-align: left;  
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.login-form a {
+    color: #ff9800;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-form a:hover {
+    color: #e68900;
+}
+
+.login-form input,
+.login-form select,
+.login-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-form input:focus,
+.login-form select:focus,
+.login-form textarea:focus {
+    outline: none;
+    border-color: #ff9800;
+    box-shadow: 0 0 5px rgba(255,152,0,0.5);
+}
+
+
+.counter-input {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.counter-input label {
+    font-size: 1em;
+    color: #333;
+}
+
+.counter-input input {
+    width: 100px;
+    padding: 5px;
+    font-size: 1em;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

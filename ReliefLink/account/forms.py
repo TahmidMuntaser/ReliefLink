@@ -245,6 +245,12 @@ class AddWardMemberForm(BaseUserForm):
         return user
 
 class AddHouseForm(forms.ModelForm):
+    family_member = forms.IntegerField(
+        min_value=1,
+        initial=1,
+        widget=forms.NumberInput(attrs={'min': '1'})
+    )
+    
     class Meta:
         model = Housh
         fields = ['family_member']
