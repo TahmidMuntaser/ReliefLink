@@ -30,7 +30,7 @@
     <thead>
         <tr style="background-color: #f4f4f4;">
             <th style="padding: 8px;">Holding Number</th>
-            <th style="padding: 8px;">Ward</th>
+            {% comment %} <th style="padding: 8px;">Ward</th> {% endcomment %}
             <th style="padding: 8px;">Member</th>
             
             <th style="padding: 8px;">Born</th>
@@ -39,7 +39,12 @@
                 <th style="padding: 8px;">Relief Demand</th>
                 <th style="padding: 8px;">Dry Food Supply</th>
                 <th style="padding: 8px;">Primary Supply</th>
+            {% else %}
+                <th style="padding: 8px;">Delete House</th>
+
             {% endif %}
+            
+            
         </tr>
     </thead>l
     <tbody>
@@ -50,7 +55,7 @@
                     {{ house.holding_number }}
                     </a>
                 </td>
-                <td style="padding: 8px;">{{ house.ward }}</td>
+                {% comment %} <td style="padding: 8px;">{{ house.ward }}</td> {% endcomment %}
                 <td style="padding: 8px;">{{ house.family_member }}</td>
                 <td style="padding: 8px; text-align: center;">
                     <form method="post" action="{% url 'born' house.id %}">
@@ -61,13 +66,20 @@
                 <td style="padding: 8px; text-align: center;">
                     <form method="post" action="{% url 'death' house.id %}">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-danger">Death</button>
                     </form>
                 </td>
                 {% if ward.is_flood %}
                     <td style="padding: 8px;">{{ house.relief_demand }}</td>
                     <td style="padding: 8px;">{{ house.dry_food_supply }}</td>
                     <td style="padding: 8px;">{{ house.primary_food_supply }}</td>
+                {% else %}
+                    <td style="padding: 8px; text-align: center;">
+                        <form method="post" action="{% url 'delete_house' house.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 {% endif %}
                 
                 
