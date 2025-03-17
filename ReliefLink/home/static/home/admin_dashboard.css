@@ -1,0 +1,125 @@
+.admin-dashboard-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2rem;
+    font-family: 'Roboto', sans-serif;
+    /* background-color: #f9f9f9; */
+    /* box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); */
+    border-radius: 8px;
+}
+
+.admin-dashboard-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.create-btn {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.create-btn a {
+    display: inline-block;
+    background-color: #28a745;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.create-btn a:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.admin-table caption {
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #333;
+    padding: 20px 0;
+    background-color: #f8f9fa;
+}
+
+.admin-table th, 
+.admin-table td {
+    padding: 1rem;
+    text-align: left;
+    border: 1px solid #e2e2e2;
+}
+
+.admin-table thead {
+    background-color: #f1f3f5;
+    font-weight: 600;
+}
+
+.admin-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .admin-dashboard-container {
+        margin: 1rem auto;
+        padding: 1.5rem;
+    }
+    
+    .admin-dashboard-container h2 {
+        font-size: 2rem;
+    }
+    
+    .create-btn a {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+    
+    .admin-table th, 
+    .admin-table td {
+        padding: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-dashboard-container {
+        margin: 0.5rem auto;
+        padding: 1rem;
+    }
+    
+    .admin-table th, 
+    .admin-table td {
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+}

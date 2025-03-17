@@ -1,0 +1,109 @@
+body {
+    background-color: #f4f7f9;
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 1rem;
+}
+
+.login-form {
+    background: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    width: 100%;
+    max-width: 420px;
+}
+
+.login-form h2 {
+    text-align: center;
+    margin-bottom: 1.8rem;
+    color: #333;
+    font-size: 1.9rem;
+    font-weight: 700;
+}
+
+.login-form form p {
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+.login-form form input,
+.login-form form select,
+.login-form form textarea {
+    width: 100%;
+    box-sizing: border-box; 
+    padding: 0.75rem;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccd0d5;
+    border-radius: 4px;
+    font-size: 1rem;
+    
+}
+
+.btn-primary {
+    background-color: #ff9800;  
+    border: none;
+    color: #fff;
+    padding: 0.75rem;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.btn-primary:hover {
+    background-color: #ec9108;
+    transform: translateY(-2px);
+}
+
+
+.login-form p.login-helper {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+}
+.login-form a {
+    color: #ff9800;
+    text-decoration: none;
+    font-weight: 500;
+}
+.login-form a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+    .login-form {
+        padding: 1.5rem 1.5rem;
+        max-width: 90%;
+    }
+    .login-form h2 {
+        font-size: 1.7rem;
+    }
+    .btn-primary {
+        font-size: 0.9rem;
+        padding: 0.65rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-form {
+        padding: 1rem 1.25rem;
+    }
+    .login-form h2 {
+        font-size: 1.5rem;
+    }
+    .login-form form input,
+    .login-form form select,
+    .login-form form textarea {
+        padding: 0.65rem;
+    }
+}

@@ -1,9 +1,13 @@
 {% extends 'global/base.html' %}
 {% load static %}
-{% block title %}Add Divisional Commissioner{% endblock %}
+
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'account/divisionalcommissioner.css' %}">
 <link rel="stylesheet" href="{% static 'account/style.css' %}">
 {% endblock %}
+
+{% block title %}Add Divisional Commissioner{% endblock %}
+
 {% block content %}
 <div class="login-container">
     <div class="login-form">
@@ -13,7 +17,6 @@
             {{ form.as_p }}
             <button class="btn btn-primary" type="submit">Register</button>
         </form>
-        <p>go Home? <a href="{% url 'home' %}"> Home</a></p>
     </div>
 </div>
 {% endblock %}

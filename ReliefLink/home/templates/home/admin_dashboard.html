@@ -1,42 +1,48 @@
 {% extends 'global/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'home/admin_dashboard.css' %}">
+{% endblock %}
+
 {% block title %}Admin{% endblock %}
 {% block content %}
-<h2 style="text-align:center">Admin Dashboard</h2>
+<div class="admin-dashboard-container">
+    <h2>Admin Dashboard</h2>
 
-<!-- Button to Create a New User -->
-<div style="margin-bottom: 20px;">
-    <a href="{% url 'add_divisionalcommissioner' %}" class="btn btn-success">Create New Divisional Commissioner</a>
-</div>
+    <div class="create-btn">
+        <a href="{% url 'add_divisionalcommissioner' %}" class="btn btn-success">Create New Divisional Commissioner</a>
+    </div>
 
-<!-- Table to Display Deputy Commissioners -->
-<table border="1" style="width: 100%; border-collapse: collapse;">
-    <caption style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">Divisional Commissioners</caption>
-    <thead>
-        <tr style="background-color: #f4f4f4;">
-            <th style="padding: 8px;">Name</th>
-            <th style="padding: 8px;">Email</th>
-            <th style="padding: 8px;">Division</th>
-            <th style="padding: 8px;">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for user in data %}
+    <table class="admin-table">
+        <caption>Divisional Commissioners</caption>
+        <thead>
             <tr>
-                <td style="padding: 8px;">{{ user.name }}</td>
-                <td style="padding: 8px;">{{ user.email }}</td>
-                <td style="padding: 8px;">{{ user.division }}</td>
-                <td style="padding: 8px; text-align: center;">
+                <th>Name</th>
+                <th>Email</th>
+                <th>Division</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in data %}
+            <tr>
+                <td>{{ user.name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.division }}</td>
+                <td style="text-align: center;">
                     <form method="post" action="{% url 'delete_user' user.id %}">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </td>
             </tr>
-        {% empty %}
+            {% empty %}
             <tr>
-                <td colspan="4" style="text-align: center; padding: 8px;">No Divisional Commissioners found.</td>
+                <td colspan="4" style="text-align: center;">No Divisional Commissioners found.</td>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
