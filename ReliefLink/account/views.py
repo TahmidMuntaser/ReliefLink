@@ -212,5 +212,6 @@ def death_view(request, house_id):
     if request.method == 'POST':
         house = get_object_or_404(Housh, id = house_id)
         house.family_member -= 1
+        house.family_member = max(1,house.family_member)
         house.save()
     return redirect('dashboard')
