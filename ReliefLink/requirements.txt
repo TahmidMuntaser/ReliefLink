@@ -1,0 +1,5 @@
+Django
+gunicorn
+whitenoise
+vercel
+python-dotenv
