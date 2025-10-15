@@ -18,8 +18,10 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-dotenv_path = os.path.join(BASE_DIR, '.env')
-load_dotenv(dotenv_path)
+# Load .env only in local development (Vercel uses environment variables directly)
+if not os.getenv('VERCEL'):
+    dotenv_path = os.path.join(BASE_DIR, '.env')
+    load_dotenv(dotenv_path)
 
 
 # Static files (CSS, JavaScript, Images)
