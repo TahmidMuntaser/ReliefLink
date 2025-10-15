@@ -25,14 +25,7 @@ if not os.getenv('VERCEL'):
     load_dotenv(dotenv_path)
 
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static',
-# ]
-
-
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+# Static files configuration moved to bottom of file
 
 
 # Quick-start development settings - unsuitable for production
@@ -162,12 +155,12 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# Use WhiteNoise storage for static files
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use WhiteNoise storage for static files - simpler for Vercel
+STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
 
 # WhiteNoise settings for Vercel
 WHITENOISE_USE_FINDERS = True
-WHITENOISE_AUTOREFRESH = True
+WHITENOISE_AUTOREFRESH = DEBUG
 
 # Security/Proxy settings for Vercel
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
