@@ -1,11 +1,15 @@
 {
   "version": 2,
   "builds": [
-    { "src": "ReliefLink/wsgi.py", "use": "@vercel/python" },
-    { "src": "staticfiles/**/*", "use": "@vercel/static" }
+    { 
+      "src": "ReliefLink/wsgi.py", 
+      "use": "@vercel/python"
+    }
   ],
   "routes": [
-    { "src": "/static/(.*)", "dest": "/staticfiles/$1" },
-    { "src": "/(.*)", "dest": "ReliefLink/wsgi.py" }
+    { 
+      "src": "/(.*)", 
+      "dest": "ReliefLink/wsgi.py" 
+    }
   ]
 }
