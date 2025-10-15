@@ -3,3 +3,5 @@ gunicorn
 whitenoise
 vercel
 python-dotenv
+dj-database-url
+psycopg[binary]
