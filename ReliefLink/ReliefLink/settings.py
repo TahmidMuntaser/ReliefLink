@@ -155,8 +155,8 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# Use WhiteNoise storage for static files - simpler for Vercel
-STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
+# Use WhiteNoise storage for static files - compressed for better performance
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # WhiteNoise settings for Vercel
 WHITENOISE_USE_FINDERS = True
