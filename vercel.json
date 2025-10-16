@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "ReliefLink/ReliefLink/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "ReliefLink/ReliefLink/wsgi.py"
+    }
+  ],
+  "buildCommand": "cd ReliefLink && python manage.py collectstatic --noinput"
+}
