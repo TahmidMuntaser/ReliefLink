@@ -12,5 +12,5 @@
       "dest": "ReliefLink/wsgi.py"
     }
   ],
-  "buildCommand": "python manage.py collectstatic --noinput"
+  "buildCommand": "bash build_vercel.sh"
 }

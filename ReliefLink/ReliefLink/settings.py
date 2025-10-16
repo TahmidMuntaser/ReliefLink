@@ -38,7 +38,7 @@ if not SECRET_KEY:
     raise ValueError("SECRET_KEY environment variable is not set. Please add it to your .env file.")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') if os.getenv('ALLOWED_HOSTS') else ['*']
 
@@ -156,11 +156,11 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-# Use WhiteNoise storage for static files - no manifest for simpler deployment
+# Use WhiteNoise storage for static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
-# WhiteNoise settings for Vercel
-WHITENOISE_USE_FINDERS = True
+# WhiteNoise settings - don't use finders in production, only in debug mode
+WHITENOISE_USE_FINDERS = DEBUG
 WHITENOISE_AUTOREFRESH = DEBUG
 
 # Security/Proxy settings for Vercel
