@@ -1,19 +1,19 @@
 {
   "version": 2,
   "builds": [
-    { 
-      "src": "ReliefLink/wsgi.py", 
+    {
+      "src": "ReliefLink/wsgi.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/staticfiles/$1"
+      "dest": "staticfiles/$1"
     },
-    { 
-      "src": "/(.*)", 
-      "dest": "ReliefLink/wsgi.py" 
+    {
+      "src": "/(.*)",
+      "dest": "ReliefLink/wsgi.py"
     }
   ],
   "buildCommand": "python manage.py collectstatic --noinput"
